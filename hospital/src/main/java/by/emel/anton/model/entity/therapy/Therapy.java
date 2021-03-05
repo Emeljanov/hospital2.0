@@ -2,6 +2,8 @@ package by.emel.anton.model.entity.therapy;
 
 import by.emel.anton.model.entity.card.PatientCard;
 import by.emel.anton.model.entity.user.User;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +12,9 @@ import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@Builder
 public class Therapy {
 
     @Id

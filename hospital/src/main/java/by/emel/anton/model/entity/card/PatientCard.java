@@ -2,6 +2,8 @@ package by.emel.anton.model.entity.card;
 
 import by.emel.anton.model.entity.therapy.Therapy;
 import by.emel.anton.model.entity.user.User;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +12,8 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 public class PatientCard {
 

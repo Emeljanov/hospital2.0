@@ -2,6 +2,7 @@ package by.emel.anton.model.entity.user;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -37,7 +38,7 @@ public class User implements UserDetails {
     @Column(columnDefinition = "ENUM('ADMIN', 'DOCTOR', 'PATIENT')", nullable = false)
     private Role role;
 
-    @Column
+    @Column(columnDefinition = "boolean")
     private boolean isActive;
 
     @Override
