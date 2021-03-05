@@ -25,6 +25,12 @@ public class User implements UserDetails {
     private String pass;
 
     @Column
+    private String firstName;
+
+    @Column
+    private String lastName;
+
+    @Column
     private LocalDate birthday;
 
     @Enumerated(EnumType.STRING)
