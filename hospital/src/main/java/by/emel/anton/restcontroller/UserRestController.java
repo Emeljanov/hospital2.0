@@ -2,16 +2,8 @@ package by.emel.anton.restcontroller;
 
 import by.emel.anton.api.user.ResponseUserDTO;
 import by.emel.anton.api.user.UserFacade;
-import by.emel.anton.model.entity.user.User;
-import by.emel.anton.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 @AllArgsConstructor
 @RestController
