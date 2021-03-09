@@ -38,4 +38,9 @@ public class UserFacadeImpl implements UserFacade {
 
         return userConverter.convert(userService.saveUser(user));
     }
+
+    @Override
+    public void deleteUser(int id) {
+        userService.deleteUserById(id);
+    }
 }

@@ -3,14 +3,12 @@ package by.emel.anton.api.user;
 import by.emel.anton.model.entity.user.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @AllArgsConstructor
 @Getter
-@Setter
 public class CreateUserRequestDTO {
 
     @NotNull(message = "field login = null")

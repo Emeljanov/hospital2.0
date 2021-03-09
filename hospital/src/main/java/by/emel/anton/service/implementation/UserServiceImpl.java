@@ -48,4 +48,9 @@ public class UserServiceImpl implements UserService {
     public User updateUser(User user) {
         return userDao.updateUser(user).orElseThrow(() -> new UserServiceException("Can't update user"));
     }
+
+    @Override
+    public void deleteUserById(int id) {
+        userDao.deleteUserById(id);
+    }
 }

@@ -10,4 +10,6 @@ public interface UserFacade {
     List<ResponseUserDTO> getAllUsers();
 
     ResponseUserDTO saveUser(CreateUserRequestDTO createUserRequestDTO);
+
+    void deleteUser(int id);
 }

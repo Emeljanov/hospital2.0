@@ -10,6 +10,8 @@ import by.emel.anton.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @AllArgsConstructor
 public class TherapyFacadeImpl implements TherapyFacade {
@@ -21,10 +23,10 @@ public class TherapyFacadeImpl implements TherapyFacade {
 
 
     @Override
-    public void saveTherapy(RequestTherapyDTO requestTherapyDTO, int patientCardId, int doctorId) {
+    public ResponseTherapyDTO saveTherapy(RequestTherapyDTO requestTherapyDTO, int doctorId) {
 
-        PatientCard patientCard = patientCardService.getPatientCardById(patientCardId);
-        User patient = userService.getUserById(patientCard.getPatient().getId());
+        User patient = userService.getUserById(requestTherapyDTO.getPatientId());
+        PatientCard patientCard = patientCardService.getPatientCardByPatientId(patient.getId());
         User doctor = userService.getUserById(doctorId);
 
         Therapy therapy = Therapy.builder()
@@ -36,11 +38,21 @@ public class TherapyFacadeImpl implements TherapyFacade {
                 .card(patientCard)
                 .build();
 
-        therapyService.saveTherapy(therapy);
+       return converter.convert(therapyService.saveTherapy(therapy));
     }
 
     @Override
     public ResponseTherapyDTO getTherapy(int id) {
         return converter.convert(therapyService.getTherapyById(id));
+    }
+
+    @Override
+    public List<ResponseTherapyDTO> getAllTherapies() {
+        return converter.convertAll(therapyService.getAllTherapies());
+    }
+
+    @Override
+    public ResponseTherapyDTO getTherapyForPatient(int therapyId, int patientId) {
+        return converter.convert(therapyService.getTherapyByIdForPatient(therapyId,patientId));
     }
 }

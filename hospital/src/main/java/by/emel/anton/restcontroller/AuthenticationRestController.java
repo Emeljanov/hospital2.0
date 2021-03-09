@@ -23,6 +23,8 @@ import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
+import static by.emel.anton.restcontroller.Constants.AUTHORITY_SIMPLE;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -55,7 +57,7 @@ public class AuthenticationRestController {
     }
 
     @PostMapping("/logout")
-    @PreAuthorize("hasAuthority('permission:simple')")
+    @PreAuthorize(AUTHORITY_SIMPLE)
     public void logout(HttpServletRequest request, HttpServletResponse response) {
         log.info("Logout from token {}", request.getHeader("Authorization"));
         SecurityContextLogoutHandler securityContextLogoutHandler = new SecurityContextLogoutHandler();

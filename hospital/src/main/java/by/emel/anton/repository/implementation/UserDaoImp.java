@@ -41,4 +41,9 @@ public class UserDaoImp implements UserDao {
         return userJpaRepository.findAll();
     }
 
+    @Override
+    public void deleteUserById(int id) {
+        userJpaRepository.deleteById(id);
+    }
+
 }
