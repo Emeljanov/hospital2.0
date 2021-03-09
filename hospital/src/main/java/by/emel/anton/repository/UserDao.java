@@ -2,6 +2,7 @@ package by.emel.anton.repository;
 
 import by.emel.anton.model.entity.user.User;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserDao {
@@ -10,8 +11,10 @@ public interface UserDao {
 
     Optional<User> getUserById(int id);
 
-    void updateUser(User user);
+    Optional<User> updateUser(User user);
 
-    void saveUser(User user);
+    Optional<User> saveUser(User user);
+
+    List<User> getAllUsers();
 
 }

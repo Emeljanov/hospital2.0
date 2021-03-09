@@ -6,6 +6,7 @@ import by.emel.anton.repository.implementation.jparepository.UserJpaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -25,13 +26,19 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    public void updateUser(User user) {
-        userJpaRepository.save(user);
+    public Optional<User> updateUser(User user) {
+        return Optional.of(userJpaRepository.save(user));
     }
 
     @Override
-    public void saveUser(User user) {
-        userJpaRepository.save(user);
+    public Optional<User> saveUser(User user) {
+        return Optional.of(userJpaRepository.save(user));
+
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userJpaRepository.findAll();
     }
 
 }

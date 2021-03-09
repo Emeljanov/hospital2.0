@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 @Transactional
@@ -16,12 +18,8 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     @Override
-    public void saveUser(User user) {
-        try {
-            userDao.saveUser(user);
-        } catch (RuntimeException e) {
-            throw new UserServiceException("Can't save user");
-        }
+    public User saveUser(User user) {
+        return userDao.saveUser(user).orElseThrow(() -> new UserServiceException("Can't save user"));
     }
 
     @Override
@@ -35,6 +33,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> getAllUsers() {
+        return userDao.getAllUsers();
+    }
+
+    @Override
     public void changeUserActiveStatus(int userId, boolean isActive) {
         User user = userDao.getUserById(userId).orElseThrow(() -> new UserServiceException("Can't find user by Id"));
         user.setActive(isActive);
@@ -42,11 +45,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(User user) {
-        try {
-            userDao.updateUser(user);
-        } catch (RuntimeException e) {
-            throw new UserServiceException("Can't update user");
-        }
+    public User updateUser(User user) {
+        return userDao.updateUser(user).orElseThrow(() -> new UserServiceException("Can't update user"));
     }
 }

@@ -7,9 +7,9 @@ import lombok.Getter;
 @Getter
 public enum Permission {
 
-    READ("permission:read"),
-    WRITE("permission:write"),
-    DELETE("permission:delete");
+    SIMPLE("permission:simple"),
+    DOCTOR("permission:doctor"),
+    ADMIN("permission:admin");
 
     private final String permission;
 

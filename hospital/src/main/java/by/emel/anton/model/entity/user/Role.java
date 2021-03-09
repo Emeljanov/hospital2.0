@@ -11,9 +11,9 @@ import java.util.stream.Collectors;
 @Getter
 public enum Role {
 
-    ADMIN(Set.of(Permission.READ, Permission.WRITE, Permission.DELETE)),
-    DOCTOR(Set.of(Permission.READ, Permission.WRITE)),
-    PATIENT(Set.of(Permission.READ));
+    ADMIN(Set.of(Permission.SIMPLE, Permission.DOCTOR, Permission.ADMIN)),
+    DOCTOR(Set.of(Permission.DOCTOR, Permission.SIMPLE)),
+    PATIENT(Set.of(Permission.SIMPLE));
 
     private final Set<Permission> permissions;
 
