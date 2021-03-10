@@ -43,11 +43,6 @@ public class PatientCardFacadeImpl implements PatientCardFacade {
     }
 
     @Override
-    public ResponsePatientCardDTO getPatientCardForPatient(int cardId, int patientId) {
-        return converter.convert(patientCardService.getPatientCardForPatient(cardId, patientId));
-    }
-
-    @Override
     public ResponsePatientCardDTO getCardForPatient(int patientId) {
         return converter.convert(patientCardService.getPatientCardByPatientId(patientId));
     }

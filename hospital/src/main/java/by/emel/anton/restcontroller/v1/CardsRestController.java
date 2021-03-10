@@ -36,4 +36,9 @@ public class CardsRestController {
         log.info("Get card by id : {}", cardId);
         return patientCardFacade.getPatientCard(cardId);
     }
+   /* @PreAuthorize((AUTHORITY_DOCTOR))
+    @GetMapping
+    public ResponsePatientCardDTO findCardByPatientId(@PathVariable(name = "patientId") int patientId) {
+        return
+    }*/
 }

@@ -10,12 +10,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.security.Principal;
 import java.util.List;
 
 import static by.emel.anton.restcontroller.v1.Constants.AUTHORITY_PATIENT;
@@ -31,8 +31,9 @@ public class PatientsRestController {
 
     @PreAuthorize(AUTHORITY_PATIENT)
     @GetMapping("{patientId}/therapies")
-    public ResponseEntity<List<ResponseTherapyDTO>> findAllTherapies(@PathVariable(name = "patientId") int patientId, Principal principal) {
-        User patient = (User) principal;
+    public ResponseEntity<List<ResponseTherapyDTO>> findAllTherapies(@PathVariable(name = "patientId") int patientId, Authentication authentication) {
+
+        User patient = (User) authentication.getPrincipal();
         int patientPrincipalId = patient.getId();
         checkParamForEquality(patientId, patientPrincipalId);
 
@@ -41,9 +42,9 @@ public class PatientsRestController {
 
     @PreAuthorize(AUTHORITY_PATIENT)
     @GetMapping("{patientId}/therapies/{therapyId}")
-    public ResponseTherapyDTO findTherapy(@PathVariable(name = "patientId") int patientId, @PathVariable(name = "therapyId") int therapyId, Principal principal) {
+    public ResponseTherapyDTO findTherapy(@PathVariable(name = "patientId") int patientId, @PathVariable(name = "therapyId") int therapyId, Authentication authentication) {
 
-        User patient = (User) principal;
+        User patient = (User) authentication.getPrincipal();
         int patientPrincipalId = patient.getId();
         checkParamForEquality(patientId, patientPrincipalId);
 
@@ -52,8 +53,8 @@ public class PatientsRestController {
 
     @PreAuthorize(AUTHORITY_PATIENT)
     @GetMapping("{patientId}/card")
-    public ResponsePatientCardDTO findPatientCard(@PathVariable(name = "patientId") int patientId, Principal principal) {
-        User patient = (User) principal;
+    public ResponsePatientCardDTO findPatientCard(@PathVariable(name = "patientId") int patientId, Authentication authentication) {
+        User patient = (User) authentication.getPrincipal();
         int patientPrincipalId = patient.getId();
         checkParamForEquality(patientId, patientPrincipalId);
 

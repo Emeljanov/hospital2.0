@@ -11,7 +11,5 @@ public interface PatientCardFacade {
 
     List<ResponsePatientCardDTO> getAllCards();
 
-    ResponsePatientCardDTO getPatientCardForPatient(int cardId, int patientId);
-
     ResponsePatientCardDTO getCardForPatient(int patientId);
 }

@@ -1,7 +1,7 @@
 package by.emel.anton.restcontroller.v1;
 
-import by.emel.anton.facade.converter.Converter;
 import by.emel.anton.api.ResponseFailDTO;
+import by.emel.anton.facade.converter.Converter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

@@ -11,6 +11,4 @@ public interface PatientCardJpaRepository extends JpaRepository<PatientCard, Int
 
     Optional<PatientCard> findByPatientId(int patientId);
 
-    Optional<PatientCard> findByIdAndPatientId(int id, int patientId);
-
 }

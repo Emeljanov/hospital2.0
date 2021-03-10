@@ -37,7 +37,6 @@ public class UserFacadeImpl implements UserFacade {
     public ResponseUserDTO saveUser(CreateUserRequestDTO createUserRequestDTO) {
 
         User user = createUserRequestDTOUserConverter.convert(createUserRequestDTO);
-
         return userConverter.convert(userService.saveUser(user));
     }
 

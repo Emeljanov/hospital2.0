@@ -14,6 +14,4 @@ public interface PatientCardService {
 
     List<PatientCard> getAllCards();
 
-    PatientCard getPatientCardForPatient(int cardId, int patientId);
-
 }

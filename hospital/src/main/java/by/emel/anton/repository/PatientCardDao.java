@@ -14,6 +14,4 @@ public interface PatientCardDao {
 
     List<PatientCard> getAllCards();
 
-    Optional<PatientCard> getPatientCardForPatient(int cardId, int patientId);
-
 }

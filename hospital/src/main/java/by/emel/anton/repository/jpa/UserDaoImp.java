@@ -32,7 +32,6 @@ public class UserDaoImp implements UserDao {
     @Override
     public Optional<User> saveUser(User user) {
         return Optional.of(userJpaRepository.save(user));
-
     }
 
     @Override

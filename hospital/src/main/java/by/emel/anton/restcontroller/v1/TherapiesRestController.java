@@ -8,9 +8,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 import static by.emel.anton.restcontroller.v1.Constants.AUTHORITY_DOCTOR;
@@ -39,9 +39,9 @@ public class TherapiesRestController {
 
     @PreAuthorize(AUTHORITY_DOCTOR)
     @PostMapping()
-    public ResponseTherapyDTO saveTherapy(@RequestBody RequestTherapyDTO requestTherapyDTO, Principal principal) {
+    public ResponseTherapyDTO saveTherapy(@RequestBody RequestTherapyDTO requestTherapyDTO, Authentication authentication) {
         log.info("Add new therapy with description : {}, and patient id : {}", requestTherapyDTO.getDescription(), requestTherapyDTO.getPatientId());
-        User doctor = (User) principal;
+        User doctor = (User) authentication.getPrincipal();
         return therapyFacade.saveTherapy(requestTherapyDTO, doctor.getId());
     }
 }

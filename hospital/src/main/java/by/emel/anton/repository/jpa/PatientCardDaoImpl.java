@@ -34,8 +34,4 @@ public class PatientCardDaoImpl implements PatientCardDao {
         return patientCardJpaRepository.findAll();
     }
 
-    @Override
-    public Optional<PatientCard> getPatientCardForPatient(int cardId, int patientId) {
-        return patientCardJpaRepository.findByIdAndPatientId(cardId,patientId);
-    }
 }

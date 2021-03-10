@@ -41,8 +41,4 @@ public class PatientCardServiceImpl implements PatientCardService {
         return patientCardDao.getAllCards();
     }
 
-    @Override
-    public PatientCard getPatientCardForPatient(int cardId, int patientId) {
-        return patientCardDao.getPatientCardForPatient(cardId,patientId).orElseThrow(() -> new PatientCardServiceException("Can't get patient card by patient id"));
-    }
 }
