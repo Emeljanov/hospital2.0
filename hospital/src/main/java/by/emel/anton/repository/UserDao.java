@@ -1,6 +1,6 @@
 package by.emel.anton.repository;
 
-import by.emel.anton.model.entity.user.User;
+import by.emel.anton.entity.User;
 
 import java.util.List;
 import java.util.Optional;

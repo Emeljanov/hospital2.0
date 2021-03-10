@@ -1,7 +1,8 @@
 package by.emel.anton.repository;
 
-import by.emel.anton.model.entity.card.PatientCard;
+import by.emel.anton.entity.PatientCard;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface PatientCardDao {
@@ -10,5 +11,9 @@ public interface PatientCardDao {
     Optional<PatientCard> getPatientCardById(int id);
 
     Optional<PatientCard> getPatientCardByPatientId(int patientId);
+
+    List<PatientCard> getAllCards();
+
+    Optional<PatientCard> getPatientCardForPatient(int cardId, int patientId);
 
 }

@@ -1,6 +1,6 @@
 package by.emel.anton.service.implementation;
 
-import by.emel.anton.model.entity.user.User;
+import by.emel.anton.entity.User;
 import by.emel.anton.repository.UserDao;
 import by.emel.anton.service.UserService;
 import by.emel.anton.service.exception.UserServiceException;

@@ -1,6 +1,6 @@
 package by.emel.anton.service.implementation;
 
-import by.emel.anton.model.entity.therapy.Therapy;
+import by.emel.anton.entity.Therapy;
 import by.emel.anton.repository.TherapyDao;
 import by.emel.anton.service.TherapyService;
 import by.emel.anton.service.exception.TherapyServiceException;
@@ -35,6 +35,11 @@ public class TherapyServiceImpl implements TherapyService {
     @Override
     public Therapy getTherapyByIdForPatient(int therapyId, int patientId) {
         return therapyDao.getTherapyByIdForPatient(therapyId,patientId).orElseThrow(() -> new TherapyServiceException("Can't get therapy for this patient"));
+    }
+
+    @Override
+    public List<Therapy> getAllTherapiesForPatient(int patientId) {
+        return therapyDao.getAllTherapiesForPatient(patientId);
     }
 
 

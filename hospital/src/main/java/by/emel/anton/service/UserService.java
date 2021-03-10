@@ -1,6 +1,6 @@
 package by.emel.anton.service;
 
-import by.emel.anton.model.entity.user.User;
+import by.emel.anton.entity.User;
 
 import java.util.List;
 

@@ -1,12 +1,14 @@
 package by.emel.anton.service.implementation;
 
-import by.emel.anton.model.entity.card.PatientCard;
+import by.emel.anton.entity.PatientCard;
 import by.emel.anton.repository.PatientCardDao;
 import by.emel.anton.service.PatientCardService;
 import by.emel.anton.service.exception.PatientCardServiceException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -32,5 +34,15 @@ public class PatientCardServiceImpl implements PatientCardService {
     @Override
     public PatientCard getPatientCardByPatientId(int patientId) {
         return patientCardDao.getPatientCardByPatientId(patientId).orElseThrow(() -> new PatientCardServiceException("Can't get patient card by patient id"));
+    }
+
+    @Override
+    public List<PatientCard> getAllCards() {
+        return patientCardDao.getAllCards();
+    }
+
+    @Override
+    public PatientCard getPatientCardForPatient(int cardId, int patientId) {
+        return patientCardDao.getPatientCardForPatient(cardId,patientId).orElseThrow(() -> new PatientCardServiceException("Can't get patient card by patient id"));
     }
 }

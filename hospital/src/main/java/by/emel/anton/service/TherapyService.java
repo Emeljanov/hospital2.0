@@ -1,6 +1,6 @@
 package by.emel.anton.service;
 
-import by.emel.anton.model.entity.therapy.Therapy;
+import by.emel.anton.entity.Therapy;
 
 import java.util.List;
 
@@ -13,4 +13,6 @@ public interface TherapyService {
     List<Therapy> getAllTherapies();
 
     Therapy getTherapyByIdForPatient(int therapyId, int patientId);
+
+    List<Therapy> getAllTherapiesForPatient(int patientId);
 }
