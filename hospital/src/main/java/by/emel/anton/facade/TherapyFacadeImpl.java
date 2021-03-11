@@ -2,10 +2,10 @@ package by.emel.anton.facade;
 
 import by.emel.anton.api.v1.RequestTherapyDTO;
 import by.emel.anton.api.v1.ResponseTherapyDTO;
-import by.emel.anton.facade.converter.Converter;
 import by.emel.anton.entity.PatientCard;
 import by.emel.anton.entity.Therapy;
 import by.emel.anton.entity.User;
+import by.emel.anton.facade.converter.Converter;
 import by.emel.anton.service.PatientCardService;
 import by.emel.anton.service.TherapyService;
 import by.emel.anton.service.UserService;
@@ -40,7 +40,7 @@ public class TherapyFacadeImpl implements TherapyFacade {
                 .card(patientCard)
                 .build();
 
-       return therapyConverter.convert(therapyService.save(therapy));
+        return therapyConverter.convert(therapyService.save(therapy));
     }
 
     @Override
@@ -55,7 +55,7 @@ public class TherapyFacadeImpl implements TherapyFacade {
 
     @Override
     public ResponseTherapyDTO findByIdForPatientId(int therapyId, int patientId) {
-        return therapyConverter.convert(therapyService.findByIdForPatientId(therapyId,patientId));
+        return therapyConverter.convert(therapyService.findByIdForPatientId(therapyId, patientId));
     }
 
     @Override

@@ -15,4 +15,6 @@ public interface UserFacade {
     ResponseUserDTO save(CreateUserRequestDTO createUserRequestDTO);
 
     void delete(int id);
+
+    ResponseUserDTO changeActiveStatus(int userId, boolean isActive);
 }

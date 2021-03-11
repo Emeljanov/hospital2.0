@@ -14,7 +14,7 @@ public interface UserService {
 
     List<User> findAll();
 
-    void changeActiveStatusById(int userId, boolean isActive);
+    User changeActiveStatusById(int userId, boolean isActive);
 
     User update(User user);
 

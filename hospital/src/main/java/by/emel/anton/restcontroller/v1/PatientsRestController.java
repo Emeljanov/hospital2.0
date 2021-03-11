@@ -40,7 +40,7 @@ public class PatientsRestController {
 
     @PreAuthorize(AUTHORITY_PATIENT)
     @GetMapping("{patientId}/therapies/{therapyId}")
-    public ResponseTherapyDTO findTherapy(@PathVariable(name = "patientId") int patientId, @PathVariable(name = "therapyId") int therapyId, Authentication authentication) {
+    public ResponseTherapyDTO findTherapyById(@PathVariable(name = "patientId") int patientId, @PathVariable(name = "therapyId") int therapyId, Authentication authentication) {
 
         User patient = (User) authentication.getPrincipal();
         int patientPrincipalId = patient.getId();

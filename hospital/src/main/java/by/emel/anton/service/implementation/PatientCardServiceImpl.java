@@ -19,7 +19,7 @@ public class PatientCardServiceImpl implements PatientCardService {
 
     @Override
     public PatientCard save(PatientCard patientCard) {
-        return patientCardDao.savePatientCard(patientCard).orElseThrow(() -> new PatientCardServiceException("Can't save patient card"));
+        return patientCardDao.save(patientCard).orElseThrow(() -> new PatientCardServiceException("Can't save patient card"));
     }
 
     @Override

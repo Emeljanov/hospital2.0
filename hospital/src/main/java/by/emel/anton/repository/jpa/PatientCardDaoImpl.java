@@ -2,21 +2,21 @@ package by.emel.anton.repository.jpa;
 
 import by.emel.anton.entity.PatientCard;
 import by.emel.anton.repository.PatientCardDao;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PatientCardDaoImpl implements PatientCardDao {
 
-    private PatientCardJpaRepository patientCardJpaRepository;
+    private final PatientCardJpaRepository patientCardJpaRepository;
 
     @Override
-    public Optional<PatientCard> savePatientCard(PatientCard patientCard) {
-       return Optional.of(patientCardJpaRepository.save(patientCard));
+    public Optional<PatientCard> save(PatientCard patientCard) {
+        return Optional.of(patientCardJpaRepository.save(patientCard));
     }
 
     @Override

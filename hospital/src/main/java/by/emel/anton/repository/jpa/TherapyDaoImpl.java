@@ -16,12 +16,11 @@ public class TherapyDaoImpl implements TherapyDao {
 
     @Override
     public Optional<Therapy> save(Therapy therapy) {
-       return Optional.of(therapyJpaRepository.save(therapy));
+        return Optional.of(therapyJpaRepository.save(therapy));
     }
 
     @Override
     public Optional<Therapy> findById(int id) {
-
         return therapyJpaRepository.findById(id);
     }
 
@@ -32,7 +31,7 @@ public class TherapyDaoImpl implements TherapyDao {
 
     @Override
     public Optional<Therapy> findByIdForPatientId(int therapyId, int patientId) {
-        return therapyJpaRepository.findTherapyByIdAndPatientId(therapyId,patientId);
+        return therapyJpaRepository.findTherapyByIdAndPatientId(therapyId, patientId);
     }
 
     @Override

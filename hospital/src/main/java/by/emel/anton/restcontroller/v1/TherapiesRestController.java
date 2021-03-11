@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static by.emel.anton.restcontroller.v1.Permissions.AUTHORITY_DOCTOR;
@@ -23,19 +24,19 @@ public class TherapiesRestController {
 
     @PreAuthorize(AUTHORITY_DOCTOR)
     @GetMapping()
-    public ResponseEntity<List<ResponseTherapyDTO>> findAllTherapies() {
+    public ResponseEntity<List<ResponseTherapyDTO>> findAll() {
         return ResponseEntity.ok(therapyFacade.findAll());
     }
 
     @PreAuthorize(AUTHORITY_DOCTOR)
     @GetMapping("{id}")
-    public ResponseTherapyDTO findTherapy(@PathVariable(name = "id") int therapyId) {
+    public ResponseTherapyDTO findTherapyById(@PathVariable(name = "id") int therapyId) {
         return therapyFacade.find(therapyId);
     }
 
     @PreAuthorize(AUTHORITY_DOCTOR)
     @PostMapping()
-    public ResponseTherapyDTO saveTherapy(@RequestBody RequestTherapyDTO requestTherapyDTO, Authentication authentication) {
+    public ResponseTherapyDTO saveTherapy(@RequestBody @Valid RequestTherapyDTO requestTherapyDTO, Authentication authentication) {
         User doctor = (User) authentication.getPrincipal();
         return therapyFacade.save(requestTherapyDTO, doctor.getId());
     }

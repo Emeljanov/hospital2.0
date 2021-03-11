@@ -20,7 +20,7 @@ public class PatientCardFacadeImpl implements PatientCardFacade {
     private Converter<PatientCard, ResponsePatientCardDTO> cardConverter;
 
     @Override
-    public void createForPatientId(int patientId) {
+    public ResponsePatientCardDTO createForPatientId(int patientId) {
 
         User patient = userService.findById(patientId);
         PatientCard patientCard = PatientCard
@@ -28,7 +28,7 @@ public class PatientCardFacadeImpl implements PatientCardFacade {
                 .patient(patient)
                 .build();
 
-        patientCardService.save(patientCard);
+        return cardConverter.convert(patientCardService.save(patientCard));
     }
 
     @Override

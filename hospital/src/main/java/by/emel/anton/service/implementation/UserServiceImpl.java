@@ -38,10 +38,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void changeActiveStatusById(int userId, boolean isActive) {
-        User user = userDao.findById(userId).orElseThrow(() -> new UserServiceException("Can't find user by Id"));
+    public User changeActiveStatusById(int userId, boolean isActive) {
+        User user = findById(userId);
         user.setActive(isActive);
-        userDao.update(user);
+        return update(user);
     }
 
     @Override

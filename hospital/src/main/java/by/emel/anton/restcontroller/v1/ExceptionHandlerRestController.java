@@ -20,14 +20,14 @@ public class ExceptionHandlerRestController {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(AuthenticationException.class)
     public ResponseFailDTO AuthenticationExceptionHandler(AuthenticationException authenticationException) {
-        log.error(authenticationException.getMessage());
+        log.error("Authentication Exception :", authenticationException);
         return failConverter.convert(authenticationException);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Exception.class)
     public ResponseFailDTO exceptionHandler(Exception exception) {
-        log.error("Controller exception :" + exception.getMessage());
+        log.error("Controller exception :", exception);
         return failConverter.convert(exception);
     }
 

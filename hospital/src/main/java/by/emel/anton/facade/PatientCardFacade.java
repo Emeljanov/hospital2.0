@@ -5,7 +5,7 @@ import by.emel.anton.api.v1.ResponsePatientCardDTO;
 import java.util.List;
 
 public interface PatientCardFacade {
-    void createForPatientId(int patientId);
+    ResponsePatientCardDTO createForPatientId(int patientId);
 
     ResponsePatientCardDTO findById(int cardId);
 

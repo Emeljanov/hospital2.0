@@ -2,8 +2,8 @@ package by.emel.anton.facade;
 
 import by.emel.anton.api.v1.CreateUserRequestDTO;
 import by.emel.anton.api.v1.ResponseUserDTO;
-import by.emel.anton.facade.converter.Converter;
 import by.emel.anton.entity.User;
+import by.emel.anton.facade.converter.Converter;
 import by.emel.anton.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -43,5 +43,10 @@ public class UserFacadeImpl implements UserFacade {
     @Override
     public void delete(int id) {
         userService.deleteById(id);
+    }
+
+    @Override
+    public ResponseUserDTO changeActiveStatus(int userId, boolean isActive) {
+        return userConverter.convert(userService.changeActiveStatusById(userId, isActive));
     }
 }
