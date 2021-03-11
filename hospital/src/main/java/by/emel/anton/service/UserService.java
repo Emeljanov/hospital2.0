@@ -6,18 +6,18 @@ import java.util.List;
 
 public interface UserService {
 
-    User saveUser(User user);
+    User save(User user);
 
-    User getUserById(int id);
+    User findById(int id);
 
-    User getUserByLogin(String login);
+    User findByLogin(String login);
 
-    List<User> getAllUsers();
+    List<User> findAll();
 
-    void changeUserActiveStatus(int userId, boolean isActive);
+    void changeActiveStatusById(int userId, boolean isActive);
 
-    User updateUser(User user);
+    User update(User user);
 
-    void deleteUserById(int id);
+    void deleteById(int id);
 
 }

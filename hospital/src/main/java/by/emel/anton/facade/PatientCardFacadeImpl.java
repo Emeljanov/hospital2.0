@@ -1,9 +1,9 @@
 package by.emel.anton.facade;
 
-import by.emel.anton.api.ResponsePatientCardDTO;
-import by.emel.anton.facade.converter.Converter;
+import by.emel.anton.api.v1.ResponsePatientCardDTO;
 import by.emel.anton.entity.PatientCard;
 import by.emel.anton.entity.User;
+import by.emel.anton.facade.converter.Converter;
 import by.emel.anton.service.PatientCardService;
 import by.emel.anton.service.UserService;
 import lombok.AllArgsConstructor;
@@ -17,33 +17,33 @@ public class PatientCardFacadeImpl implements PatientCardFacade {
 
     private PatientCardService patientCardService;
     private UserService userService;
-    private Converter<PatientCard, ResponsePatientCardDTO> converter;
+    private Converter<PatientCard, ResponsePatientCardDTO> cardConverter;
 
     @Override
-    public void createPatientCard(int patientId) {
+    public void createForPatientId(int patientId) {
 
-        User patient = userService.getUserById(patientId);
+        User patient = userService.findById(patientId);
         PatientCard patientCard = PatientCard
                 .builder()
                 .patient(patient)
                 .build();
 
-        patientCardService.savePatientCard(patientCard);
+        patientCardService.save(patientCard);
     }
 
     @Override
-    public ResponsePatientCardDTO getPatientCard(int cardId) {
+    public ResponsePatientCardDTO findById(int cardId) {
 
-        return converter.convert(patientCardService.getPatientCardById(cardId));
+        return cardConverter.convert(patientCardService.findById(cardId));
     }
 
     @Override
-    public List<ResponsePatientCardDTO> getAllCards() {
-        return converter.convertAll(patientCardService.getAllCards());
+    public List<ResponsePatientCardDTO> findAll() {
+        return cardConverter.convertAll(patientCardService.getAll());
     }
 
     @Override
-    public ResponsePatientCardDTO getCardForPatient(int patientId) {
-        return converter.convert(patientCardService.getPatientCardByPatientId(patientId));
+    public ResponsePatientCardDTO findByPatientId(int patientId) {
+        return cardConverter.convert(patientCardService.findByPatientId(patientId));
     }
 }

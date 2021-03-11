@@ -1,18 +1,18 @@
 package by.emel.anton.facade;
 
-import by.emel.anton.api.CreateUserRequestDTO;
-import by.emel.anton.api.ResponseUserDTO;
+import by.emel.anton.api.v1.CreateUserRequestDTO;
+import by.emel.anton.api.v1.ResponseUserDTO;
 
 import java.util.List;
 
 public interface UserFacade {
-    ResponseUserDTO getUserByLogin(String login);
+    ResponseUserDTO findByLogin(String login);
 
-    ResponseUserDTO getUserById(int id);
+    ResponseUserDTO findById(int id);
 
-    List<ResponseUserDTO> getAllUsers();
+    List<ResponseUserDTO> findAll();
 
-    ResponseUserDTO saveUser(CreateUserRequestDTO createUserRequestDTO);
+    ResponseUserDTO save(CreateUserRequestDTO createUserRequestDTO);
 
-    void deleteUser(int id);
+    void delete(int id);
 }

@@ -15,28 +15,28 @@ public class TherapyDaoImpl implements TherapyDao {
     private TherapyJpaRepository therapyJpaRepository;
 
     @Override
-    public Optional<Therapy> saveTherapy(Therapy therapy) {
+    public Optional<Therapy> save(Therapy therapy) {
        return Optional.of(therapyJpaRepository.save(therapy));
     }
 
     @Override
-    public Optional<Therapy> getTherapy(int id) {
+    public Optional<Therapy> findById(int id) {
 
         return therapyJpaRepository.findById(id);
     }
 
     @Override
-    public List<Therapy> getAllTherapies() {
+    public List<Therapy> findAll() {
         return therapyJpaRepository.findAll();
     }
 
     @Override
-    public Optional<Therapy> getTherapyByIdForPatient(int therapyId, int patientId) {
+    public Optional<Therapy> findByIdForPatientId(int therapyId, int patientId) {
         return therapyJpaRepository.findTherapyByIdAndPatientId(therapyId,patientId);
     }
 
     @Override
-    public List<Therapy> getAllTherapiesForPatient(int patientId) {
+    public List<Therapy> findAllByPatientId(int patientId) {
         return therapyJpaRepository.findAllByPatientId(patientId);
     }
 }

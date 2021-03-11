@@ -18,27 +18,23 @@ public class PatientCardServiceImpl implements PatientCardService {
     private PatientCardDao patientCardDao;
 
     @Override
-    public void savePatientCard(PatientCard patientCard) {
-        try {
-            patientCardDao.savePatientCard(patientCard);
-        } catch (RuntimeException e) {
-            throw new PatientCardServiceException("Can't save patient card");
-        }
+    public PatientCard save(PatientCard patientCard) {
+        return patientCardDao.savePatientCard(patientCard).orElseThrow(() -> new PatientCardServiceException("Can't save patient card"));
     }
 
     @Override
-    public PatientCard getPatientCardById(int cardId) {
-        return patientCardDao.getPatientCardById(cardId).orElseThrow(() -> new PatientCardServiceException("Can't get patient card by id"));
+    public PatientCard findById(int cardId) {
+        return patientCardDao.findById(cardId).orElseThrow(() -> new PatientCardServiceException("Can't find patient card by id"));
     }
 
     @Override
-    public PatientCard getPatientCardByPatientId(int patientId) {
-        return patientCardDao.getPatientCardByPatientId(patientId).orElseThrow(() -> new PatientCardServiceException("Can't get patient card by patient id"));
+    public PatientCard findByPatientId(int patientId) {
+        return patientCardDao.findByPatientId(patientId).orElseThrow(() -> new PatientCardServiceException("Can't find patient card by patient id"));
     }
 
     @Override
-    public List<PatientCard> getAllCards() {
-        return patientCardDao.getAllCards();
+    public List<PatientCard> getAll() {
+        return patientCardDao.findAll();
     }
 
 }

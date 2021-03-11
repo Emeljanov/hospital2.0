@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface TherapyService {
 
-    Therapy saveTherapy(Therapy therapy);
+    Therapy save(Therapy therapy);
 
-    Therapy getTherapyById(int therapyId);
+    Therapy findById(int therapyId);
 
-    List<Therapy> getAllTherapies();
+    List<Therapy> findAll();
 
-    Therapy getTherapyByIdForPatient(int therapyId, int patientId);
+    Therapy findByIdForPatientId(int therapyId, int patientId);
 
-    List<Therapy> getAllTherapiesForPatient(int patientId);
+    List<Therapy> getAllForPatientId(int patientId);
 }

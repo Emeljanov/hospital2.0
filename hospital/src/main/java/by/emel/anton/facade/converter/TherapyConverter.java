@@ -1,6 +1,6 @@
 package by.emel.anton.facade.converter;
 
-import by.emel.anton.api.ResponseTherapyDTO;
+import by.emel.anton.api.v1.ResponseTherapyDTO;
 import by.emel.anton.entity.Therapy;
 import org.springframework.stereotype.Component;
 

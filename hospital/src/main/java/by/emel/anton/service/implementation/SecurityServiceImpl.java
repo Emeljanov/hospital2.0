@@ -9,7 +9,11 @@ import org.springframework.stereotype.Service;
 public class SecurityServiceImpl implements SecurityService {
     @Override
     public String getLoginFromUserDetails() {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails = (UserDetails) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
         return userDetails.getUsername();
     }
 }

@@ -1,6 +1,6 @@
 package by.emel.anton.facade.converter;
 
-import by.emel.anton.api.CreateUserRequestDTO;
+import by.emel.anton.api.v1.CreateUserRequestDTO;
 import by.emel.anton.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -6,6 +6,7 @@ package by.emel.anton.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiKey;
@@ -21,11 +22,12 @@ import java.util.Arrays;
 import java.util.List;
 
 @Configuration
-public class SpringFoxConfig {
+public class SwaggerConfig {
+
     @Bean
     public Docket api() {
         List<SecurityScheme> schemeList = new ArrayList<>();
-        schemeList.add(new ApiKey(/*HttpHeaders.AUTHORIZATION*/"Authorization", "Authorization", "header"));
+        schemeList.add(new ApiKey(HttpHeaders.AUTHORIZATION, "Authorization", "header"));
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .securityContexts(Arrays.asList(securityContext()))

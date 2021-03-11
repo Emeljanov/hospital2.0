@@ -7,16 +7,16 @@ import java.util.Optional;
 
 public interface UserDao {
 
-    Optional<User> getUserByLogin(String login);
+    Optional<User> findByLogin(String login);
 
-    Optional<User> getUserById(int id);
+    Optional<User> findById(int id);
 
-    Optional<User> updateUser(User user);
+    Optional<User> update(User user);
 
-    Optional<User> saveUser(User user);
+    Optional<User> save(User user);
 
-    List<User> getAllUsers();
+    List<User> findAll();
 
-    void deleteUserById(int id);
+    void deleteById(int id);
 
 }

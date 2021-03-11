@@ -18,39 +18,39 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     @Override
-    public User saveUser(User user) {
-        return userDao.saveUser(user).orElseThrow(() -> new UserServiceException("Can't save user"));
+    public User save(User user) {
+        return userDao.save(user).orElseThrow(() -> new UserServiceException("Can't save user"));
     }
 
     @Override
-    public User getUserById(int id) {
-        return userDao.getUserById(id).orElseThrow(() -> new UserServiceException("Can't get user by id"));
+    public User findById(int id) {
+        return userDao.findById(id).orElseThrow(() -> new UserServiceException("Can't find user by id"));
     }
 
     @Override
-    public User getUserByLogin(String login) {
-        return userDao.getUserByLogin(login).orElseThrow(() -> new UserServiceException("Can't get user by login"));
+    public User findByLogin(String login) {
+        return userDao.findByLogin(login).orElseThrow(() -> new UserServiceException("Can't find user by login"));
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return userDao.getAllUsers();
+    public List<User> findAll() {
+        return userDao.findAll();
     }
 
     @Override
-    public void changeUserActiveStatus(int userId, boolean isActive) {
-        User user = userDao.getUserById(userId).orElseThrow(() -> new UserServiceException("Can't find user by Id"));
+    public void changeActiveStatusById(int userId, boolean isActive) {
+        User user = userDao.findById(userId).orElseThrow(() -> new UserServiceException("Can't find user by Id"));
         user.setActive(isActive);
-        userDao.updateUser(user);
+        userDao.update(user);
     }
 
     @Override
-    public User updateUser(User user) {
-        return userDao.updateUser(user).orElseThrow(() -> new UserServiceException("Can't update user"));
+    public User update(User user) {
+        return userDao.update(user).orElseThrow(() -> new UserServiceException("Can't update user"));
     }
 
     @Override
-    public void deleteUserById(int id) {
-        userDao.deleteUserById(id);
+    public void deleteById(int id) {
+        userDao.deleteById(id);
     }
 }

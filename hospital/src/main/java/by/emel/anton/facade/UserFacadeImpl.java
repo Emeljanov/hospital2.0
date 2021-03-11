@@ -1,7 +1,7 @@
 package by.emel.anton.facade;
 
-import by.emel.anton.api.CreateUserRequestDTO;
-import by.emel.anton.api.ResponseUserDTO;
+import by.emel.anton.api.v1.CreateUserRequestDTO;
+import by.emel.anton.api.v1.ResponseUserDTO;
 import by.emel.anton.facade.converter.Converter;
 import by.emel.anton.entity.User;
 import by.emel.anton.service.UserService;
@@ -19,29 +19,29 @@ public class UserFacadeImpl implements UserFacade {
     private Converter<CreateUserRequestDTO, User> createUserRequestDTOUserConverter;
 
     @Override
-    public ResponseUserDTO getUserByLogin(String login) {
-        return userConverter.convert(userService.getUserByLogin(login));
+    public ResponseUserDTO findByLogin(String login) {
+        return userConverter.convert(userService.findByLogin(login));
     }
 
     @Override
-    public ResponseUserDTO getUserById(int id) {
-        return userConverter.convert(userService.getUserById(id));
+    public ResponseUserDTO findById(int id) {
+        return userConverter.convert(userService.findById(id));
     }
 
     @Override
-    public List<ResponseUserDTO> getAllUsers() {
-        return userConverter.convertAll(userService.getAllUsers());
+    public List<ResponseUserDTO> findAll() {
+        return userConverter.convertAll(userService.findAll());
     }
 
     @Override
-    public ResponseUserDTO saveUser(CreateUserRequestDTO createUserRequestDTO) {
+    public ResponseUserDTO save(CreateUserRequestDTO createUserRequestDTO) {
 
         User user = createUserRequestDTOUserConverter.convert(createUserRequestDTO);
-        return userConverter.convert(userService.saveUser(user));
+        return userConverter.convert(userService.save(user));
     }
 
     @Override
-    public void deleteUser(int id) {
-        userService.deleteUserById(id);
+    public void delete(int id) {
+        userService.deleteById(id);
     }
 }

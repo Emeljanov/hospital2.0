@@ -6,12 +6,12 @@ import java.util.List;
 
 public interface PatientCardService {
 
-    void savePatientCard(PatientCard patientCard);
+    PatientCard save(PatientCard patientCard);
 
-    PatientCard getPatientCardById(int cardId);
+    PatientCard findById(int cardId);
 
-    PatientCard getPatientCardByPatientId(int patientId);
+    PatientCard findByPatientId(int patientId);
 
-    List<PatientCard> getAllCards();
+    List<PatientCard> getAll();
 
 }

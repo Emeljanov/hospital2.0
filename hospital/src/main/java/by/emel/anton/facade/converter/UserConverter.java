@@ -1,6 +1,6 @@
 package by.emel.anton.facade.converter;
 
-import by.emel.anton.api.ResponseUserDTO;
+import by.emel.anton.api.v1.ResponseUserDTO;
 import by.emel.anton.entity.User;
 import org.springframework.stereotype.Component;
 

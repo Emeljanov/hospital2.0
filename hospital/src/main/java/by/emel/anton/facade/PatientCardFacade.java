@@ -1,15 +1,15 @@
 package by.emel.anton.facade;
 
-import by.emel.anton.api.ResponsePatientCardDTO;
+import by.emel.anton.api.v1.ResponsePatientCardDTO;
 
 import java.util.List;
 
 public interface PatientCardFacade {
-    void createPatientCard(int patientId);
+    void createForPatientId(int patientId);
 
-    ResponsePatientCardDTO getPatientCard(int cardId);
+    ResponsePatientCardDTO findById(int cardId);
 
-    List<ResponsePatientCardDTO> getAllCards();
+    List<ResponsePatientCardDTO> findAll();
 
-    ResponsePatientCardDTO getCardForPatient(int patientId);
+    ResponsePatientCardDTO findByPatientId(int patientId);
 }

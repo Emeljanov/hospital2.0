@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PatientCardDao {
-    void savePatientCard(PatientCard patientCard);
+    Optional<PatientCard> savePatientCard(PatientCard patientCard);
 
-    Optional<PatientCard> getPatientCardById(int id);
+    Optional<PatientCard> findById(int id);
 
-    Optional<PatientCard> getPatientCardByPatientId(int patientId);
+    Optional<PatientCard> findByPatientId(int patientId);
 
-    List<PatientCard> getAllCards();
+    List<PatientCard> findAll();
 
 }

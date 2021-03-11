@@ -1,4 +1,4 @@
-package by.emel.anton.api;
+package by.emel.anton.api.v1;
 
 import by.emel.anton.entity.Role;
 import lombok.AllArgsConstructor;

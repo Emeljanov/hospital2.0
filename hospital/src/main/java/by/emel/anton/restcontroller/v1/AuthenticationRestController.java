@@ -1,8 +1,8 @@
 package by.emel.anton.restcontroller.v1;
 
 
-import by.emel.anton.api.RequestUserDTO;
-import by.emel.anton.api.ResponseUserDTO;
+import by.emel.anton.api.v1.RequestUserDTO;
+import by.emel.anton.api.v1.ResponseUserDTO;
 import by.emel.anton.facade.UserFacade;
 import by.emel.anton.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
-import static by.emel.anton.restcontroller.v1.Constants.AUTHORITY_PATIENT;
+import static by.emel.anton.restcontroller.v1.Permissions.AUTHORITY_PATIENT;
 
 
 @RequiredArgsConstructor
@@ -32,34 +32,35 @@ import static by.emel.anton.restcontroller.v1.Constants.AUTHORITY_PATIENT;
 @Slf4j
 public class AuthenticationRestController {
 
+    private final static String TOKEN = "token";
+    private final static String USER = "user";
+
+
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserFacade userFacade;
 
-    @PostMapping("/login")
+    @PostMapping("login")
     public ResponseEntity<?> authenticate(@RequestBody @Valid RequestUserDTO requestUserDTO) {
 
         String login = requestUserDTO.getLogin();
         String password = requestUserDTO.getPassword();
-        log.info("Login in with login : {} , password: {}", login, password);
-
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login, password));
 
         Map<String, Object> response = new HashMap<>();
 
-        ResponseUserDTO responseUserDTO = userFacade.getUserByLogin(login);
+        ResponseUserDTO responseUserDTO = userFacade.findByLogin(login);
         String role = responseUserDTO.getRoleString();
         String token = jwtTokenProvider.createToken(login, role);
-        response.put("user", responseUserDTO);
-        response.put("token", token);
+        response.put(USER, responseUserDTO);
+        response.put(TOKEN, token);
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/logout")
+    @PostMapping("logout")
     @PreAuthorize(AUTHORITY_PATIENT)
     public void logout(HttpServletRequest request, HttpServletResponse response) {
-        log.info("Logout from token {}", request.getHeader("Authorization"));
         SecurityContextLogoutHandler securityContextLogoutHandler = new SecurityContextLogoutHandler();
         securityContextLogoutHandler.logout(request, response, null);
     }

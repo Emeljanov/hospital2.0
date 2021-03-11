@@ -1,20 +1,20 @@
 package by.emel.anton.facade;
 
-import by.emel.anton.api.RequestTherapyDTO;
-import by.emel.anton.api.ResponseTherapyDTO;
+import by.emel.anton.api.v1.RequestTherapyDTO;
+import by.emel.anton.api.v1.ResponseTherapyDTO;
 
 import java.util.List;
 
 public interface TherapyFacade {
 
-    ResponseTherapyDTO saveTherapy(RequestTherapyDTO requestTherapyDTO, int doctorId);
+    ResponseTherapyDTO save(RequestTherapyDTO requestTherapyDTO, int doctorId);
 
-    ResponseTherapyDTO getTherapy(int id);
+    ResponseTherapyDTO find(int id);
 
-    List<ResponseTherapyDTO> getAllTherapies();
+    List<ResponseTherapyDTO> findAll();
 
-    ResponseTherapyDTO getTherapyForPatient(int therapyId, int patientId);
+    ResponseTherapyDTO findByIdForPatientId(int therapyId, int patientId);
 
-    List<ResponseTherapyDTO> getAllTherapiesForPatient(int patientId);
+    List<ResponseTherapyDTO> findAllByPatientId(int patientId);
 
 }

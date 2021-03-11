@@ -1,7 +1,7 @@
 package by.emel.anton.facade;
 
-import by.emel.anton.api.RequestTherapyDTO;
-import by.emel.anton.api.ResponseTherapyDTO;
+import by.emel.anton.api.v1.RequestTherapyDTO;
+import by.emel.anton.api.v1.ResponseTherapyDTO;
 import by.emel.anton.facade.converter.Converter;
 import by.emel.anton.entity.PatientCard;
 import by.emel.anton.entity.Therapy;
@@ -21,15 +21,15 @@ public class TherapyFacadeImpl implements TherapyFacade {
     private TherapyService therapyService;
     private UserService userService;
     private PatientCardService patientCardService;
-    private Converter<Therapy, ResponseTherapyDTO> converter;
+    private Converter<Therapy, ResponseTherapyDTO> therapyConverter;
 
 
     @Override
-    public ResponseTherapyDTO saveTherapy(RequestTherapyDTO requestTherapyDTO, int doctorId) {
+    public ResponseTherapyDTO save(RequestTherapyDTO requestTherapyDTO, int doctorId) {
 
-        User patient = userService.getUserById(requestTherapyDTO.getPatientId());
-        PatientCard patientCard = patientCardService.getPatientCardByPatientId(patient.getId());
-        User doctor = userService.getUserById(doctorId);
+        User patient = userService.findById(requestTherapyDTO.getPatientId());
+        PatientCard patientCard = patientCardService.findByPatientId(patient.getId());
+        User doctor = userService.findById(doctorId);
 
         Therapy therapy = Therapy.builder()
                 .description(requestTherapyDTO.getDescription())
@@ -40,26 +40,26 @@ public class TherapyFacadeImpl implements TherapyFacade {
                 .card(patientCard)
                 .build();
 
-       return converter.convert(therapyService.saveTherapy(therapy));
+       return therapyConverter.convert(therapyService.save(therapy));
     }
 
     @Override
-    public ResponseTherapyDTO getTherapy(int id) {
-        return converter.convert(therapyService.getTherapyById(id));
+    public ResponseTherapyDTO find(int id) {
+        return therapyConverter.convert(therapyService.findById(id));
     }
 
     @Override
-    public List<ResponseTherapyDTO> getAllTherapies() {
-        return converter.convertAll(therapyService.getAllTherapies());
+    public List<ResponseTherapyDTO> findAll() {
+        return therapyConverter.convertAll(therapyService.findAll());
     }
 
     @Override
-    public ResponseTherapyDTO getTherapyForPatient(int therapyId, int patientId) {
-        return converter.convert(therapyService.getTherapyByIdForPatient(therapyId,patientId));
+    public ResponseTherapyDTO findByIdForPatientId(int therapyId, int patientId) {
+        return therapyConverter.convert(therapyService.findByIdForPatientId(therapyId,patientId));
     }
 
     @Override
-    public List<ResponseTherapyDTO> getAllTherapiesForPatient(int patientId) {
-        return converter.convertAll(therapyService.getAllTherapiesForPatient(patientId));
+    public List<ResponseTherapyDTO> findAllByPatientId(int patientId) {
+        return therapyConverter.convertAll(therapyService.getAllForPatientId(patientId));
     }
 }

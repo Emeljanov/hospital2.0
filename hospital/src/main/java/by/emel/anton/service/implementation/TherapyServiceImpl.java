@@ -18,28 +18,28 @@ public class TherapyServiceImpl implements TherapyService {
     private TherapyDao therapyDao;
 
     @Override
-    public Therapy saveTherapy(Therapy therapy) {
-           return therapyDao.saveTherapy(therapy).orElseThrow(() -> new TherapyServiceException("Can't save therapy"));
+    public Therapy save(Therapy therapy) {
+        return therapyDao.save(therapy).orElseThrow(() -> new TherapyServiceException("Can't save therapy"));
     }
 
     @Override
-    public Therapy getTherapyById(int therapyId) {
-        return therapyDao.getTherapy(therapyId).orElseThrow(() -> new TherapyServiceException("Can't get therapy by id"));
+    public Therapy findById(int therapyId) {
+        return therapyDao.findById(therapyId).orElseThrow(() -> new TherapyServiceException("Can't find therapy by id"));
     }
 
     @Override
-    public List<Therapy> getAllTherapies() {
-        return therapyDao.getAllTherapies();
+    public List<Therapy> findAll() {
+        return therapyDao.findAll();
     }
 
     @Override
-    public Therapy getTherapyByIdForPatient(int therapyId, int patientId) {
-        return therapyDao.getTherapyByIdForPatient(therapyId,patientId).orElseThrow(() -> new TherapyServiceException("Can't get therapy for this patient"));
+    public Therapy findByIdForPatientId(int therapyId, int patientId) {
+        return therapyDao.findByIdForPatientId(therapyId, patientId).orElseThrow(() -> new TherapyServiceException("Can't find therapy for this patient"));
     }
 
     @Override
-    public List<Therapy> getAllTherapiesForPatient(int patientId) {
-        return therapyDao.getAllTherapiesForPatient(patientId);
+    public List<Therapy> getAllForPatientId(int patientId) {
+        return therapyDao.findAllByPatientId(patientId);
     }
 
 

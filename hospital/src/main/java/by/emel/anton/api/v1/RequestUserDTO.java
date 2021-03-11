@@ -1,4 +1,4 @@
-package by.emel.anton.api;
+package by.emel.anton.api.v1;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

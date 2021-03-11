@@ -7,14 +7,14 @@ import java.util.Optional;
 
 public interface TherapyDao {
 
-    Optional<Therapy> saveTherapy(Therapy therapy);
+    Optional<Therapy> save(Therapy therapy);
 
-    Optional<Therapy> getTherapy(int id);
+    Optional<Therapy> findById(int id);
 
-    List<Therapy> getAllTherapies();
+    List<Therapy> findAll();
 
-    Optional<Therapy> getTherapyByIdForPatient(int therapyId, int patientId);
+    Optional<Therapy> findByIdForPatientId(int therapyId, int patientId);
 
-    List<Therapy> getAllTherapiesForPatient(int patientId);
+    List<Therapy> findAllByPatientId(int patientId);
 
 }

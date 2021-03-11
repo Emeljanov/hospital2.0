@@ -15,22 +15,22 @@ public class PatientCardDaoImpl implements PatientCardDao {
     private PatientCardJpaRepository patientCardJpaRepository;
 
     @Override
-    public void savePatientCard(PatientCard patientCard) {
-        patientCardJpaRepository.save(patientCard);
+    public Optional<PatientCard> savePatientCard(PatientCard patientCard) {
+       return Optional.of(patientCardJpaRepository.save(patientCard));
     }
 
     @Override
-    public Optional<PatientCard> getPatientCardById(int id) {
+    public Optional<PatientCard> findById(int id) {
         return patientCardJpaRepository.findById(id);
     }
 
     @Override
-    public Optional<PatientCard> getPatientCardByPatientId(int patientId) {
+    public Optional<PatientCard> findByPatientId(int patientId) {
         return patientCardJpaRepository.findByPatientId(patientId);
     }
 
     @Override
-    public List<PatientCard> getAllCards() {
+    public List<PatientCard> findAll() {
         return patientCardJpaRepository.findAll();
     }
 

@@ -1,7 +1,7 @@
 package by.emel.anton.facade.converter;
 
-import by.emel.anton.api.ResponsePatientCardDTO;
-import by.emel.anton.api.ResponseTherapyDTO;
+import by.emel.anton.api.v1.ResponsePatientCardDTO;
+import by.emel.anton.api.v1.ResponseTherapyDTO;
 import by.emel.anton.entity.PatientCard;
 import by.emel.anton.entity.Therapy;
 import lombok.AllArgsConstructor;
