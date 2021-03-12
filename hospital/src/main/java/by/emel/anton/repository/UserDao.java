@@ -11,9 +11,9 @@ public interface UserDao {
 
     Optional<User> findById(int id);
 
-    Optional<User> update(User user);
+    User update(User user);
 
-    Optional<User> save(User user);
+    User save(User user);
 
     List<User> findAll();
 

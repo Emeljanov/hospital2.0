@@ -15,8 +15,8 @@ public class TherapyDaoImpl implements TherapyDao {
     private TherapyJpaRepository therapyJpaRepository;
 
     @Override
-    public Optional<Therapy> save(Therapy therapy) {
-        return Optional.of(therapyJpaRepository.save(therapy));
+    public Therapy save(Therapy therapy) {
+        return therapyJpaRepository.save(therapy);
     }
 
     @Override

@@ -3,6 +3,7 @@ package by.emel.anton.service.implementation;
 import by.emel.anton.entity.User;
 import by.emel.anton.repository.UserDao;
 import by.emel.anton.service.UserService;
+import by.emel.anton.service.exception.EntityNotFoundHospitalServiceException;
 import by.emel.anton.service.exception.UserServiceException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,17 +20,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
-        return userDao.save(user).orElseThrow(() -> new UserServiceException("Can't save user"));
+        return userDao.save(user);
     }
 
     @Override
     public User findById(int id) {
-        return userDao.findById(id).orElseThrow(() -> new UserServiceException("Can't find user by id"));
+        return userDao.findById(id).orElseThrow(() -> new EntityNotFoundHospitalServiceException("Can't find user by id"));
     }
 
     @Override
     public User findByLogin(String login) {
-        return userDao.findByLogin(login).orElseThrow(() -> new UserServiceException("Can't find user by login"));
+        return userDao.findByLogin(login).orElseThrow(() -> new EntityNotFoundHospitalServiceException("Can't find user by login"));
     }
 
     @Override
@@ -46,7 +47,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(User user) {
-        return userDao.update(user).orElseThrow(() -> new UserServiceException("Can't update user"));
+        return userDao.update(user);
     }
 
     @Override

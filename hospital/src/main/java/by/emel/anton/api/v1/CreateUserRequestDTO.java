@@ -2,12 +2,14 @@ package by.emel.anton.api.v1;
 
 import by.emel.anton.entity.Role;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @AllArgsConstructor
+@Builder
 @Getter
 public class CreateUserRequestDTO {
 

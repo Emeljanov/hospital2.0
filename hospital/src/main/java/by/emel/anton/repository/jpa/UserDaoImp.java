@@ -25,13 +25,13 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    public Optional<User> update(User user) {
-        return Optional.of(userJpaRepository.save(user));
+    public User update(User user) {
+        return userJpaRepository.save(user);
     }
 
     @Override
-    public Optional<User> save(User user) {
-        return Optional.of(userJpaRepository.save(user));
+    public User save(User user) {
+        return userJpaRepository.save(user);
     }
 
     @Override

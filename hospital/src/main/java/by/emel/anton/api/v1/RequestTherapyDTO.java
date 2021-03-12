@@ -1,10 +1,12 @@
 package by.emel.anton.api.v1;
 
+import lombok.Builder;
 import lombok.Getter;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
+@Builder
 @Getter
 public class RequestTherapyDTO {
 

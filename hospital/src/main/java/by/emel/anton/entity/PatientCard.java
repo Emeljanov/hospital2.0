@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -24,7 +25,6 @@ public class PatientCard {
     private User patient;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "card", cascade = CascadeType.ALL)
-    private List<Therapy> therapies;
-
+    private List<Therapy> therapies = new ArrayList<>();
 
 }

@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface TherapyDao {
 
-    Optional<Therapy> save(Therapy therapy);
+    Therapy save(Therapy therapy);
 
     Optional<Therapy> findById(int id);
 
