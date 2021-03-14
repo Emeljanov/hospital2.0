@@ -9,6 +9,7 @@ import by.emel.anton.entity.User;
 import by.emel.anton.facade.converter.Converter;
 import by.emel.anton.service.PatientCardService;
 import by.emel.anton.service.UserService;
+import by.emel.anton.service.exception.EntityNotFoundHospitalServiceException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +21,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -58,6 +59,8 @@ class PatientCardFacadeImplTest {
     private ResponseTherapyDTO responseTherapyDTO;
     private List<Therapy> therapies;
     private List<ResponseTherapyDTO> therapiesDTO;
+    private List<PatientCard> patientCards;
+    private List<ResponsePatientCardDTO> patientCardsDTO;
 
 
     @BeforeEach
@@ -126,10 +129,13 @@ class PatientCardFacadeImplTest {
                 .therapyDTOList(therapiesDTO)
                 .build();
 
+        patientCards = Collections.singletonList(patientCard);
+        patientCardsDTO = Collections.singletonList(responsePatientCardDTO);
+
     }
 
     @Test
-    void createForPatientId() {
+    void shouldCreateForPatientId() {
         when(patientCardService.save(patientCard)).thenReturn(patientCard);
         when(userService.findById(ID_2)).thenReturn(patient);
         when(cardConverter.convert(patientCard)).thenReturn(responsePatientCardDTO);
@@ -147,7 +153,7 @@ class PatientCardFacadeImplTest {
     }
 
     @Test
-    void findById() {
+    void shouldFindById() {
 
         when(patientCardService.findById(ID_1)).thenReturn(patientCard);
         when(cardConverter.convert(patientCard)).thenReturn(responsePatientCardDTO);
@@ -162,12 +168,49 @@ class PatientCardFacadeImplTest {
         verify(cardConverter).convert(patientCard);
 
     }
-
     @Test
-    void findAll() {
+    void shouldThrowEntityNotFoundHospitalServiceExceptionWhenCardByIdNotFound() {
+        when(patientCardService.findById(ID_1)).thenThrow(EntityNotFoundHospitalServiceException.class);
+        assertThrows(EntityNotFoundHospitalServiceException.class,() -> patientCardFacade.findById(ID_1));
     }
 
     @Test
-    void findByPatientId() {
+    void shouldFindAll() {
+        when(patientCardService.getAll()).thenReturn(patientCards);
+        when(cardConverter.convertAll(patientCards)).thenReturn(patientCardsDTO);
+
+        List<ResponsePatientCardDTO> responsePatientCardsFromFacade = patientCardFacade.findAll();
+        ResponsePatientCardDTO responsePCardFromFacade = responsePatientCardsFromFacade.get(0);
+
+        assertNotNull(responsePatientCardsFromFacade);
+        assertEquals(responsePCardFromFacade.getId(), ID_1);
+        assertEquals(responsePCardFromFacade.getPatientId(), ID_2);
+        assertEquals(responsePCardFromFacade.getTherapyDTOList(), therapiesDTO);
+
+        verify(patientCardService).getAll();
+        verify(cardConverter).convertAll(patientCards);
+    }
+
+    @Test
+    void shouldFindByPatientId() {
+
+        when(patientCardService.findByPatientId(ID_2)).thenReturn(patientCard);
+        when(cardConverter.convert(patientCard)).thenReturn(responsePatientCardDTO);
+
+        ResponsePatientCardDTO responsePCardFromFacade = patientCardFacade.findByPatientId(ID_2);
+
+        assertEquals(responsePCardFromFacade.getId(), ID_1);
+        assertEquals(responsePCardFromFacade.getPatientId(), ID_2);
+        assertEquals(responsePCardFromFacade.getTherapyDTOList(), therapiesDTO);
+
+        verify(patientCardService).findByPatientId(ID_2);
+        verify(cardConverter).convert(patientCard);
+
+    }
+
+    @Test
+    void shouldThrowEntityNotFoundHospitalServiceExceptionWhenCardByPatientIdNotFound() {
+        when(patientCardService.findByPatientId(ID_1)).thenThrow(EntityNotFoundHospitalServiceException.class);
+        assertThrows(EntityNotFoundHospitalServiceException.class,() -> patientCardFacade.findByPatientId(ID_1));
     }
 }

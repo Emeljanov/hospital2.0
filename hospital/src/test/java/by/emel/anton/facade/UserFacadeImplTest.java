@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -55,8 +56,8 @@ class UserFacadeImplTest {
         user = TestUtil.createUser(ID, LOGIN, PASS, FIRST_NAME, LAST_NAME, BIRTHDAY, ROLE, true);
         responseUserDTO = TestUtil.createResponseUserDTO(ID, LOGIN, FIRST_NAME, LAST_NAME, ROLE.toString(), true, BIRTHDAY);
         createUserRequestDTO = TestUtil.createUserRequestDTO(LOGIN, FIRST_NAME, LAST_NAME, ROLE, BIRTHDAY, PASS);
-        users = Arrays.asList(user);
-        usersDTO = Arrays.asList(responseUserDTO);
+        users = Collections.singletonList(user);
+        usersDTO = Collections.singletonList(responseUserDTO);
 
     }
 

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PatientCardDao {
-    Optional<PatientCard> save(PatientCard patientCard);
+    PatientCard save(PatientCard patientCard);
 
     Optional<PatientCard> findById(int id);
 

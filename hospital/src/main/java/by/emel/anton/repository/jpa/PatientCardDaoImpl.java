@@ -15,8 +15,8 @@ public class PatientCardDaoImpl implements PatientCardDao {
     private final PatientCardJpaRepository patientCardJpaRepository;
 
     @Override
-    public Optional<PatientCard> save(PatientCard patientCard) {
-        return Optional.of(patientCardJpaRepository.save(patientCard));
+    public PatientCard save(PatientCard patientCard) {
+        return patientCardJpaRepository.save(patientCard);
     }
 
     @Override
