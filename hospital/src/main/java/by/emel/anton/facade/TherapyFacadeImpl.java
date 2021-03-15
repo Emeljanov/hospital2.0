@@ -60,6 +60,6 @@ public class TherapyFacadeImpl implements TherapyFacade {
 
     @Override
     public List<ResponseTherapyDTO> findAllByPatientId(int patientId) {
-        return therapyConverter.convertAll(therapyService.getAllForPatientId(patientId));
+        return therapyConverter.convertAll(therapyService.findAllForPatientId(patientId));
     }
 }

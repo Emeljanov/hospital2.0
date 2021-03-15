@@ -33,7 +33,7 @@ public class PatientCardServiceImpl implements PatientCardService {
     }
 
     @Override
-    public List<PatientCard> getAll() {
+    public List<PatientCard> findAll() {
         return patientCardDao.findAll();
     }
 

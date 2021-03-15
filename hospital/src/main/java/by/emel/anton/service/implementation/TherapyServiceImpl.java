@@ -38,7 +38,7 @@ public class TherapyServiceImpl implements TherapyService {
     }
 
     @Override
-    public List<Therapy> getAllForPatientId(int patientId) {
+    public List<Therapy> findAllForPatientId(int patientId) {
         return therapyDao.findAllByPatientId(patientId);
     }
 

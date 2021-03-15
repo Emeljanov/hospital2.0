@@ -14,8 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -46,8 +45,8 @@ class UserFacadeImplTest {
     private User user;
     private ResponseUserDTO responseUserDTO;
     private CreateUserRequestDTO createUserRequestDTO;
-    private List<User> users;
-    private List<ResponseUserDTO> usersDTO;
+    private List<User> users = new ArrayList<>();
+    private List<ResponseUserDTO> usersDTO = new ArrayList<>();
 
     @BeforeEach
     public void init() {
@@ -56,8 +55,8 @@ class UserFacadeImplTest {
         user = TestUtil.createUser(ID, LOGIN, PASS, FIRST_NAME, LAST_NAME, BIRTHDAY, ROLE, true);
         responseUserDTO = TestUtil.createResponseUserDTO(ID, LOGIN, FIRST_NAME, LAST_NAME, ROLE.toString(), true, BIRTHDAY);
         createUserRequestDTO = TestUtil.createUserRequestDTO(LOGIN, FIRST_NAME, LAST_NAME, ROLE, BIRTHDAY, PASS);
-        users = Collections.singletonList(user);
-        usersDTO = Collections.singletonList(responseUserDTO);
+        users.add(user);
+        usersDTO.add(responseUserDTO);
 
     }
 
@@ -80,7 +79,7 @@ class UserFacadeImplTest {
     }
 
     @Test
-    void shouldThrowUserServiceExceptionWhenUserNotFoundByLogin() {
+    void shouldThrowEntityNotFoundHospitalServiceExceptionWhenUserNotFoundByLogin() {
         when(userService.findByLogin(LOGIN)).thenThrow(EntityNotFoundHospitalServiceException.class);
         assertThrows(EntityNotFoundHospitalServiceException.class, () -> userFacade.findByLogin(LOGIN));
     }
@@ -106,7 +105,7 @@ class UserFacadeImplTest {
     }
 
     @Test
-    void shouldThrowUserServiceExceptionWhenUserNotFoundById() {
+    void shouldThrowEntityNotFoundHospitalServiceExceptionWhenUserNotFoundById() {
         when(userService.findById(ID)).thenThrow(EntityNotFoundHospitalServiceException.class);
         assertThrows(EntityNotFoundHospitalServiceException.class, () -> userFacade.findById(ID));
     }

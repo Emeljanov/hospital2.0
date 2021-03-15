@@ -18,7 +18,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -65,6 +65,11 @@ class PatientCardFacadeImplTest {
 
     @BeforeEach
     void init() {
+
+        therapies = new ArrayList<>();
+        therapiesDTO = new ArrayList<>();
+        patientCards = new ArrayList<>();
+        patientCardsDTO = new ArrayList<>();
 
         patient = User.builder()
                 .id(ID_2)
@@ -113,8 +118,8 @@ class PatientCardFacadeImplTest {
                 .therapyDTOList(therapiesDTO)
                 .build();
 
-        therapies = Collections.singletonList(therapy);
-        therapiesDTO = Collections.singletonList(responseTherapyDTO);
+        therapies.add(therapy);
+        therapiesDTO.add(responseTherapyDTO);
 
 
         patientCard = PatientCard.builder()
@@ -129,8 +134,8 @@ class PatientCardFacadeImplTest {
                 .therapyDTOList(therapiesDTO)
                 .build();
 
-        patientCards = Collections.singletonList(patientCard);
-        patientCardsDTO = Collections.singletonList(responsePatientCardDTO);
+        patientCards.add(patientCard);
+        patientCardsDTO.add(responsePatientCardDTO);
 
     }
 
@@ -168,15 +173,16 @@ class PatientCardFacadeImplTest {
         verify(cardConverter).convert(patientCard);
 
     }
+
     @Test
     void shouldThrowEntityNotFoundHospitalServiceExceptionWhenCardByIdNotFound() {
         when(patientCardService.findById(ID_1)).thenThrow(EntityNotFoundHospitalServiceException.class);
-        assertThrows(EntityNotFoundHospitalServiceException.class,() -> patientCardFacade.findById(ID_1));
+        assertThrows(EntityNotFoundHospitalServiceException.class, () -> patientCardFacade.findById(ID_1));
     }
 
     @Test
     void shouldFindAll() {
-        when(patientCardService.getAll()).thenReturn(patientCards);
+        when(patientCardService.findAll()).thenReturn(patientCards);
         when(cardConverter.convertAll(patientCards)).thenReturn(patientCardsDTO);
 
         List<ResponsePatientCardDTO> responsePatientCardsFromFacade = patientCardFacade.findAll();
@@ -187,7 +193,7 @@ class PatientCardFacadeImplTest {
         assertEquals(responsePCardFromFacade.getPatientId(), ID_2);
         assertEquals(responsePCardFromFacade.getTherapyDTOList(), therapiesDTO);
 
-        verify(patientCardService).getAll();
+        verify(patientCardService).findAll();
         verify(cardConverter).convertAll(patientCards);
     }
 
@@ -211,6 +217,6 @@ class PatientCardFacadeImplTest {
     @Test
     void shouldThrowEntityNotFoundHospitalServiceExceptionWhenCardByPatientIdNotFound() {
         when(patientCardService.findByPatientId(ID_1)).thenThrow(EntityNotFoundHospitalServiceException.class);
-        assertThrows(EntityNotFoundHospitalServiceException.class,() -> patientCardFacade.findByPatientId(ID_1));
+        assertThrows(EntityNotFoundHospitalServiceException.class, () -> patientCardFacade.findByPatientId(ID_1));
     }
 }

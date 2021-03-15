@@ -12,7 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +27,7 @@ class UserServiceImplTest {
     private final static String PASS = "password";
     private final static String FIRST_NAME = "firstName";
     private final static String LAST_NAME = "lastName";
-    private final static LocalDate BIRTHDAY = LocalDate.of(2000, 01, 01);
+    private final static LocalDate BIRTHDAY = LocalDate.of(2000, 1, 1);
     private final static Role ROLE = Role.ADMIN;
     private final static int ID_1 = 1;
 
@@ -42,6 +42,8 @@ class UserServiceImplTest {
 
     @BeforeEach
     void setUp() {
+        users = new ArrayList<>();
+
         user = User.builder()
                 .id(ID_1)
                 .login(LOGIN)
@@ -53,14 +55,14 @@ class UserServiceImplTest {
                 .lastName(LAST_NAME)
                 .build();
 
-        users = Collections.singletonList(user);
+        users.add(user);
     }
 
     @Test
     void shouldSave() {
         when(userDao.save(user)).thenReturn(user);
 
-        User userFromTest = userDao.save(user);
+        User userFromTest = userService.save(user);
         assertEquals(userFromTest.getId(), ID_1);
         assertEquals(userFromTest.getLogin(), LOGIN);
         assertEquals(userFromTest.getPass(), PASS);
@@ -75,7 +77,7 @@ class UserServiceImplTest {
     void shouldFindById() {
         when(userDao.findById(ID_1)).thenReturn(Optional.of(user));
 
-        User userFromTest = userDao.findById(ID_1).get();
+        User userFromTest = userService.findById(ID_1);
         assertEquals(userFromTest.getId(), ID_1);
         assertEquals(userFromTest.getLogin(), LOGIN);
         assertEquals(userFromTest.getPass(), PASS);
@@ -87,7 +89,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void shouldThrowUserServiceExceptionWhenUserNotFoundById() {
+    void shouldThrowEntityNotFoundHospitalServiceExceptionWhenUserNotFoundById() {
         when(userDao.findById(ID_1)).thenReturn(Optional.empty());
         assertThrows(EntityNotFoundHospitalServiceException.class, () -> userService.findById(ID_1));
     }
@@ -96,7 +98,7 @@ class UserServiceImplTest {
     void shouldFindByLogin() {
         when(userDao.findByLogin(LOGIN)).thenReturn(Optional.of(user));
 
-        User userFromTest = userDao.findByLogin(LOGIN).get();
+        User userFromTest = userService.findByLogin(LOGIN);
         assertEquals(userFromTest.getId(), ID_1);
         assertEquals(userFromTest.getLogin(), LOGIN);
         assertEquals(userFromTest.getPass(), PASS);
@@ -109,7 +111,7 @@ class UserServiceImplTest {
 
 
     @Test
-    void shouldThrowUserServiceExceptionWhenUserNotFoundByLogin() {
+    void shouldThrowEntityNotFoundHospitalServiceExceptionWhenUserNotFoundByLogin() {
         when(userDao.findByLogin(LOGIN)).thenReturn(Optional.empty());
         assertThrows(EntityNotFoundHospitalServiceException.class, () -> userService.findByLogin(LOGIN));
     }
@@ -118,7 +120,7 @@ class UserServiceImplTest {
     void shouldFindAll() {
         when(userDao.findAll()).thenReturn(users);
 
-        List<User> usersFromTest = userDao.findAll();
+        List<User> usersFromTest = userService.findAll();
         User userFromTest = usersFromTest.get(0);
         assertEquals(userFromTest.getId(), ID_1);
         assertEquals(userFromTest.getLogin(), LOGIN);

@@ -14,7 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -54,6 +54,9 @@ class PatientCardConverterTest {
     @BeforeEach
     void init() {
 
+        therapies = new ArrayList<>();
+        responseTherapiesDTO = new ArrayList<>();
+
         doctor = User.builder()
                 .id(ID_1)
                 .login(LOGIN)
@@ -86,7 +89,7 @@ class PatientCardConverterTest {
                 .endDate(END_DATE)
                 .build();
 
-        therapies = Collections.singletonList(therapy);
+        therapies.add(therapy);
 
         patientCard = PatientCard.builder()
                 .id(ID_1)
@@ -103,7 +106,7 @@ class PatientCardConverterTest {
                 .endDate(END_DATE)
                 .build();
 
-        responseTherapiesDTO = Collections.singletonList(responseTherapyDTO);
+        responseTherapiesDTO.add(responseTherapyDTO);
 
     }
 

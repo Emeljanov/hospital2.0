@@ -12,6 +12,6 @@ public interface PatientCardService {
 
     PatientCard findByPatientId(int patientId);
 
-    List<PatientCard> getAll();
+    List<PatientCard> findAll();
 
 }

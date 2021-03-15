@@ -14,5 +14,5 @@ public interface TherapyService {
 
     Therapy findByIdForPatientId(int therapyId, int patientId);
 
-    List<Therapy> getAllForPatientId(int patientId);
+    List<Therapy> findAllForPatientId(int patientId);
 }

@@ -19,7 +19,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -41,7 +41,6 @@ class TherapyFacadeImplTest {
     private final static int ID_2 = 2;
     private final static String DESCRIPTION = "description";
 
-
     @InjectMocks
     private TherapyFacadeImpl therapyFacade;
     @Mock
@@ -62,15 +61,14 @@ class TherapyFacadeImplTest {
     private List<Therapy> therapies;
     private List<ResponseTherapyDTO> therapiesDTO;
 
-
     @BeforeEach
     public void init() {
 
         doctor = TestUtil.createUser(ID_1, LOGIN, PASS, FIRST_NAME, LAST_NAME, BIRTHDAY, Role.DOCTOR, true);
         patient = TestUtil.createUser(ID_2, LOGIN, PASS, FIRST_NAME, LAST_NAME, BIRTHDAY, Role.PATIENT, true);
 
-
-        therapies = Arrays.asList(therapy);
+        therapies = new ArrayList<>();
+        therapiesDTO = new ArrayList<>();
 
         patientCard = PatientCard.builder()
                 .id(ID_1)
@@ -103,7 +101,8 @@ class TherapyFacadeImplTest {
                 .patientId(ID_2)
                 .build();
 
-        therapiesDTO = Arrays.asList(responseTherapyDTO);
+        therapies.add(therapy);
+        therapiesDTO.add(responseTherapyDTO);
 
     }
 
@@ -205,7 +204,7 @@ class TherapyFacadeImplTest {
 
     @Test
     void shouldFindAllByPatientId() {
-        when(therapyService.getAllForPatientId(ID_2)).thenReturn(therapies);
+        when(therapyService.findAllForPatientId(ID_2)).thenReturn(therapies);
         when(therapyConverter.convertAll(therapies)).thenReturn(therapiesDTO);
 
         List<ResponseTherapyDTO> therapiesDtoFromFacade = therapyFacade.findAllByPatientId(ID_2);
@@ -220,7 +219,7 @@ class TherapyFacadeImplTest {
         assertEquals(responseTherapyFromFacade.getEndDate(), END_DATE);
         assertEquals(responseTherapyFromFacade.getStartDate(), START_DATE);
 
-        verify(therapyService).getAllForPatientId(ID_2);
+        verify(therapyService).findAllForPatientId(ID_2);
         verify(therapyConverter).convertAll(therapies);
 
     }

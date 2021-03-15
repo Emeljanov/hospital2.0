@@ -39,7 +39,7 @@ public class PatientCardFacadeImpl implements PatientCardFacade {
 
     @Override
     public List<ResponsePatientCardDTO> findAll() {
-        return cardConverter.convertAll(patientCardService.getAll());
+        return cardConverter.convertAll(patientCardService.findAll());
     }
 
     @Override
