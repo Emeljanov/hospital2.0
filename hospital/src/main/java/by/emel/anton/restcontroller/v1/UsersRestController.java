@@ -47,7 +47,7 @@ public class UsersRestController {
     }
 
     @PreAuthorize(AUTHORITY_ADMIN)
-    @PutMapping("change/status/{userId}/{isActive}}")
+    @PutMapping("change/status/{userId}/{isActive}")
     public ResponseUserDTO changeUserStatus(@PathVariable(name = "userId") int userId, @PathVariable(name = "isActive") boolean isActive) {
         return userFacade.changeActiveStatus(userId, isActive);
     }
