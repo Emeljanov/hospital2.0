@@ -31,7 +31,6 @@ class PatientCardConverterTest {
     private final static LocalDate BIRTHDAY = LocalDate.of(2000, 01, 01);
     private final static LocalDate START_DATE = LocalDate.of(2021, 1, 1);
     private final static LocalDate END_DATE = LocalDate.of(2025, 1, 1);
-    private final static Role ROLE = Role.ADMIN;
     private final static int ID_1 = 1;
     private final static int ID_2 = 2;
     private final static String DESCRIPTION = "description";
@@ -84,7 +83,6 @@ class PatientCardConverterTest {
                 .card(patientCard)
                 .description(DESCRIPTION)
                 .doctor(doctor)
-                .patient(patient)
                 .startDate(START_DATE)
                 .endDate(END_DATE)
                 .build();
@@ -101,7 +99,6 @@ class PatientCardConverterTest {
                 .id(ID_1)
                 .description(DESCRIPTION)
                 .doctorId(ID_1)
-                .patientId(ID_2)
                 .startDate(START_DATE)
                 .endDate(END_DATE)
                 .build();

@@ -10,5 +10,7 @@ insert into user (id, login, pass, first_name, last_name, birthday, role, is_Act
 
 insert into patient_card (id, patient_id) values ('1','2');
 
-insert into therapy(id, description, start_date, end_date, patient_card_id, patient_id, doctor_id) values
-('1', 'Some description', '2021-01-01', '2025-01-01', '1', '2', '1');
+insert into therapy(id, description, start_date, end_date, patient_card_id, doctor_id) values
+('1', 'Some description', '2021-01-01', '2025-01-01', '1', '1');
+
+

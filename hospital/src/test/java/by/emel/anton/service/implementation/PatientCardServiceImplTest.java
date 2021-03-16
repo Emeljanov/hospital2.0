@@ -82,7 +82,7 @@ class PatientCardServiceImplTest {
                 .description(DESCRIPTION)
                 .card(patientCard)
                 .doctor(doctor)
-                .patient(patient)
+//                .patient(patient)
                 .startDate(START_DATE)
                 .endDate(END_DATE)
                 .build();

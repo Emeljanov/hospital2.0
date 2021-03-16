@@ -28,25 +28,27 @@ public class PatientsRestController {
     private final PatientCardFacade patientCardFacade;
 
     @PreAuthorize(AUTHORITY_PATIENT)
-    @GetMapping("{patientId}/therapies")
-    public ResponseEntity<List<ResponseTherapyDTO>> findAllTherapies(@PathVariable(name = "patientId") int patientId, Authentication authentication) {
+    @GetMapping("{cardId}/therapies")
+    public ResponseEntity<List<ResponseTherapyDTO>> findAllTherapies(@PathVariable(name = "cardId") int cardId, Authentication authentication) {
 
         User patient = (User) authentication.getPrincipal();
         int patientPrincipalId = patient.getId();
-        checkParamForEquality(patientId, patientPrincipalId);
+        int cardPrincipalId = patientCardFacade.findByPatientId(patientPrincipalId).getId();
+        checkParamForEquality(cardId, cardPrincipalId);
 
-        return ResponseEntity.ok(therapyFacade.findAllByPatientId(patientPrincipalId));
+        return ResponseEntity.ok(therapyFacade.findAllByCardId(cardPrincipalId));
     }
 
     @PreAuthorize(AUTHORITY_PATIENT)
-    @GetMapping("{patientId}/therapies/{therapyId}")
-    public ResponseTherapyDTO findTherapyById(@PathVariable(name = "patientId") int patientId, @PathVariable(name = "therapyId") int therapyId, Authentication authentication) {
+    @GetMapping("{cardId}/therapies/{therapyId}")
+    public ResponseTherapyDTO findTherapyById(@PathVariable(name = "cardId") int cardId, @PathVariable(name = "therapyId") int therapyId, Authentication authentication) {
 
         User patient = (User) authentication.getPrincipal();
         int patientPrincipalId = patient.getId();
-        checkParamForEquality(patientId, patientPrincipalId);
+        int cardPrincipalId = patientCardFacade.findByPatientId(patientPrincipalId).getId();
+        checkParamForEquality(cardId, cardPrincipalId);
 
-        return therapyFacade.findByIdForPatientId(therapyId, patientPrincipalId);
+        return therapyFacade.findByIdForCardId(therapyId, cardPrincipalId);
     }
 
     @PreAuthorize(AUTHORITY_PATIENT)

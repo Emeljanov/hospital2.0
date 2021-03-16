@@ -33,6 +33,6 @@ public class SpringSecurityTestConfig {
         return new InMemoryUserDetailsManager(Arrays.asList(*/
 /*admin,doctor,*//*
 patient));
-    }
+   }
 }
 */

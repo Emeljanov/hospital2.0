@@ -1,6 +1,7 @@
 package by.emel.anton.restcontroller.v1;
 
 import by.emel.anton.entity.Role;
+import by.emel.anton.entity.User;
 import by.emel.anton.repository.jpa.UserJpaRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -9,14 +10,20 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,31 +37,28 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Sql(value = {"classpath:before-each.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 class UsersRestControllerTest {
 
-    //  {"id":1,"login":"doctor","roleString":"DOCTOR","firstName":"Ivan","lastName":"Ivanov","birthday":"1900-01-01","active":true}
-
-    private static final String KEY_AUTHORIZATION = "Authorization";
     private static final String ID = "id";
     private static final String LOGIN = "login";
     private static final String DOCTOR = "doctor";
     private static final String PATIENT = "patient";
     private static final String ADMIN = "admin";
     private static final String ROLE_STRING = "roleString";
+    private static final String ROLE = "role";
     private static final String FIRST_NAME = "firstName";
     private static final String LAST_NAME = "lastName";
     private static final String BIRTHDAY = "birthday";
     private static final String ACTIVE = "active";
-
+    private static final String REQUEST_BODY_PATIENT_PATH = "src/test/resources/request-body-create-user.json";
     private static final LocalDate doctorBirthday = LocalDate.of(1900, 1, 1);
     private static final LocalDate patientBirthday = LocalDate.of(1998, 2, 3);
     private static final LocalDate adminBirthday = LocalDate.of(1800, 1, 1);
-
 
     @Autowired
     private MockMvc mockMvc;
     @Autowired
     private UserJpaRepository userJpaRepository;
-
-//    private User admin;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Test
     @WithUserDetails("admin")
@@ -67,32 +71,32 @@ class UsersRestControllerTest {
         JSONArray jsonArray = new JSONArray(mvcResult.getResponse().getContentAsString());
         assertEquals(jsonArray.length(), 4);
 
-        JSONObject jsonDoctor = jsonArray.getJSONObject(0);
-        assertEquals(jsonDoctor.getInt(ID), 1);
-        assertEquals(jsonDoctor.get(LOGIN), DOCTOR);
-        assertEquals(jsonDoctor.get(FIRST_NAME), "Ivan");
-        assertEquals(jsonDoctor.get(LAST_NAME), "Ivanov");
-        assertEquals(jsonDoctor.get(BIRTHDAY), doctorBirthday.toString());
-        assertEquals(jsonDoctor.get(ROLE_STRING), Role.DOCTOR.toString());
-        assertTrue(jsonDoctor.getBoolean(ACTIVE));
+        JSONObject doctorJson = jsonArray.getJSONObject(0);
+        assertEquals(doctorJson.getInt(ID), 1);
+        assertEquals(doctorJson.get(LOGIN), DOCTOR);
+        assertEquals(doctorJson.get(FIRST_NAME), "Ivan");
+        assertEquals(doctorJson.get(LAST_NAME), "Ivanov");
+        assertEquals(doctorJson.get(BIRTHDAY), doctorBirthday.toString());
+        assertEquals(doctorJson.get(ROLE_STRING), Role.DOCTOR.toString());
+        assertTrue(doctorJson.getBoolean(ACTIVE));
 
-        JSONObject jsonPatient = jsonArray.getJSONObject(1);
-        assertEquals(jsonPatient.getInt(ID), 2);
-        assertEquals(jsonPatient.get(LOGIN), PATIENT);
-        assertEquals(jsonPatient.get(FIRST_NAME), "Petr");
-        assertEquals(jsonPatient.get(LAST_NAME), "Petrov");
-        assertEquals(jsonPatient.get(BIRTHDAY), patientBirthday.toString());
-        assertEquals(jsonPatient.get(ROLE_STRING), Role.PATIENT.toString());
-        assertTrue(jsonPatient.getBoolean(ACTIVE));
+        JSONObject patientJson = jsonArray.getJSONObject(1);
+        assertEquals(patientJson.getInt(ID), 2);
+        assertEquals(patientJson.get(LOGIN), PATIENT);
+        assertEquals(patientJson.get(FIRST_NAME), "Petr");
+        assertEquals(patientJson.get(LAST_NAME), "Petrov");
+        assertEquals(patientJson.get(BIRTHDAY), patientBirthday.toString());
+        assertEquals(patientJson.get(ROLE_STRING), Role.PATIENT.toString());
+        assertTrue(patientJson.getBoolean(ACTIVE));
 
-        JSONObject jsonAdmin = jsonArray.getJSONObject(2);
-        assertEquals(jsonAdmin.getInt(ID), 3);
-        assertEquals(jsonAdmin.get(LOGIN), ADMIN);
-        assertEquals(jsonAdmin.get(FIRST_NAME), "Drakula");
-        assertEquals(jsonAdmin.get(LAST_NAME), "Pensilvanskiy");
-        assertEquals(jsonAdmin.get(BIRTHDAY), adminBirthday.toString());
-        assertEquals(jsonAdmin.get(ROLE_STRING), Role.ADMIN.toString());
-        assertTrue(jsonAdmin.getBoolean(ACTIVE));
+        JSONObject adminJson = jsonArray.getJSONObject(2);
+        assertEquals(adminJson.getInt(ID), 3);
+        assertEquals(adminJson.get(LOGIN), ADMIN);
+        assertEquals(adminJson.get(FIRST_NAME), "Drakula");
+        assertEquals(adminJson.get(LAST_NAME), "Pensilvanskiy");
+        assertEquals(adminJson.get(BIRTHDAY), adminBirthday.toString());
+        assertEquals(adminJson.get(ROLE_STRING), Role.ADMIN.toString());
+        assertTrue(adminJson.getBoolean(ACTIVE));
 
     }
 
@@ -104,19 +108,48 @@ class UsersRestControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        JSONObject jsonUser = new JSONObject(mvcResult.getResponse().getContentAsString());
-        assertEquals(jsonUser.getInt(ID), 1);
-        assertEquals(jsonUser.get(LOGIN), DOCTOR);
-        assertEquals(jsonUser.get(FIRST_NAME), "Ivan");
-        assertEquals(jsonUser.get(LAST_NAME), "Ivanov");
-        assertEquals(jsonUser.get(BIRTHDAY), doctorBirthday.toString());
-        assertEquals(jsonUser.get(ROLE_STRING), Role.DOCTOR.toString());
-        assertTrue(jsonUser.getBoolean(ACTIVE));
+        JSONObject userJson = new JSONObject(mvcResult.getResponse().getContentAsString());
+
+        assertEquals(userJson.getInt(ID), 1);
+        assertEquals(userJson.get(LOGIN), DOCTOR);
+        assertEquals(userJson.get(FIRST_NAME), "Ivan");
+        assertEquals(userJson.get(LAST_NAME), "Ivanov");
+        assertEquals(userJson.get(BIRTHDAY), doctorBirthday.toString());
+        assertEquals(userJson.get(ROLE_STRING), Role.DOCTOR.toString());
+        assertTrue(userJson.getBoolean(ACTIVE));
 
     }
 
     @Test
-    void saveUser() {
+    @WithUserDetails("admin")
+    void shouldSaveUser() throws Exception {
+
+        String userString = getJsonStringFromFile(REQUEST_BODY_PATIENT_PATH);
+        JSONObject userJson = new JSONObject(userString);
+
+        MvcResult mvcResult = mockMvc
+                .perform(MockMvcRequestBuilders.post("/api/v1/users").content(userString).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
+
+        User userDB = userJpaRepository.findByLogin("create").get();
+
+        assertEquals(userDB.getLogin(), userJson.getString(LOGIN));
+        assertEquals(userDB.getLastName(), userJson.getString(LAST_NAME));
+        assertEquals(userDB.getFirstName(), userJson.getString(FIRST_NAME));
+        assertEquals(userDB.getBirthday(), LocalDate.parse(userJson.getString(BIRTHDAY)));
+        assertEquals(userDB.getRole(), Role.valueOf(userJson.getString(ROLE)));
+        assertTrue(passwordEncoder.matches("created_password", userDB.getPass()));
+
+        JSONObject userResponse = new JSONObject(mvcResult.getResponse().getContentAsString());
+
+        assertEquals(userResponse.getInt(ID), userDB.getId());
+        assertEquals(userResponse.get(LOGIN), userDB.getLogin());
+        assertEquals(userResponse.get(FIRST_NAME), userDB.getFirstName());
+        assertEquals(userResponse.get(LAST_NAME), userDB.getLastName());
+        assertEquals(userResponse.get(BIRTHDAY), userDB.getBirthday().toString());
+        assertEquals(userResponse.get(ROLE_STRING), userDB.getRole().toString());
+        assertTrue(userResponse.getBoolean(ACTIVE));
+
     }
 
    /* @Test
@@ -148,5 +181,9 @@ class UsersRestControllerTest {
         assertEquals(jsonUser.get(BIRTHDAY), doctorBirthday.toString());
         assertEquals(jsonUser.get(ROLE_STRING), Role.DOCTOR.toString());
         assertFalse(jsonUser.getBoolean(ACTIVE));
+    }
+
+    private String getJsonStringFromFile(String path) throws IOException {
+        return Files.readString(Paths.get(path));
     }
 }

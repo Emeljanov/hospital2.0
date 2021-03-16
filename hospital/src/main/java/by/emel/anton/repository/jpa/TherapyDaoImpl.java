@@ -30,12 +30,12 @@ public class TherapyDaoImpl implements TherapyDao {
     }
 
     @Override
-    public Optional<Therapy> findByIdForPatientId(int therapyId, int patientId) {
-        return therapyJpaRepository.findTherapyByIdAndPatientId(therapyId, patientId);
+    public Optional<Therapy> findByIdForCardId(int therapyId, int patientId) {
+        return therapyJpaRepository.findTherapyByIdAndCardId(therapyId, patientId);
     }
 
     @Override
-    public List<Therapy> findAllByPatientId(int patientId) {
-        return therapyJpaRepository.findAllByPatientId(patientId);
+    public List<Therapy> findAllByCardId(int patientId) {
+        return therapyJpaRepository.findAllByCardId(patientId);
     }
 }

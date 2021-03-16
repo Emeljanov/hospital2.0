@@ -12,6 +12,6 @@ public class ResponseTherapyDTO {
     private String description;
     private LocalDate startDate;
     private LocalDate endDate;
-    private int patientId;
     private int doctorId;
+    private int cardId;
 }

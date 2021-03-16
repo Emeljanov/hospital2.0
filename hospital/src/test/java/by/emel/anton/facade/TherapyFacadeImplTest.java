@@ -89,16 +89,15 @@ class TherapyFacadeImplTest {
                 .doctor(doctor)
                 .startDate(START_DATE)
                 .endDate(END_DATE)
-                .patient(patient)
                 .build();
 
         responseTherapyDTO = ResponseTherapyDTO.builder()
                 .id(ID_1)
                 .description(DESCRIPTION)
                 .doctorId(ID_1)
+                .cardId(ID_1)
                 .endDate(END_DATE)
                 .startDate(START_DATE)
-                .patientId(ID_2)
                 .build();
 
         therapies.add(therapy);
@@ -119,7 +118,7 @@ class TherapyFacadeImplTest {
         assertEquals(responseTherapyFromFacade.getId(), ID_1);
         assertEquals(responseTherapyFromFacade.getDescription(), DESCRIPTION);
         assertEquals(responseTherapyFromFacade.getDoctorId(), ID_1);
-        assertEquals(responseTherapyFromFacade.getPatientId(), ID_2);
+        assertEquals(responseTherapyFromFacade.getCardId(), ID_1);
         assertEquals(responseTherapyFromFacade.getEndDate(), END_DATE);
         assertEquals(responseTherapyFromFacade.getStartDate(), START_DATE);
 
@@ -140,7 +139,7 @@ class TherapyFacadeImplTest {
         assertEquals(responseTherapyFromFacade.getId(), ID_1);
         assertEquals(responseTherapyFromFacade.getDescription(), DESCRIPTION);
         assertEquals(responseTherapyFromFacade.getDoctorId(), ID_1);
-        assertEquals(responseTherapyFromFacade.getPatientId(), ID_2);
+        assertEquals(responseTherapyFromFacade.getCardId(), ID_1);
         assertEquals(responseTherapyFromFacade.getEndDate(), END_DATE);
         assertEquals(responseTherapyFromFacade.getStartDate(), START_DATE);
 
@@ -169,7 +168,7 @@ class TherapyFacadeImplTest {
         assertEquals(responseTherapyFromFacade.getId(), ID_1);
         assertEquals(responseTherapyFromFacade.getDescription(), DESCRIPTION);
         assertEquals(responseTherapyFromFacade.getDoctorId(), ID_1);
-        assertEquals(responseTherapyFromFacade.getPatientId(), ID_2);
+        assertEquals(responseTherapyFromFacade.getCardId(), ID_1);
         assertEquals(responseTherapyFromFacade.getEndDate(), END_DATE);
         assertEquals(responseTherapyFromFacade.getStartDate(), START_DATE);
 
@@ -178,36 +177,36 @@ class TherapyFacadeImplTest {
     }
 
     @Test
-    void shouldFindByIdForPatientId() {
-        when(therapyService.findByIdForPatientId(ID_1, ID_2)).thenReturn(therapy);
+    void shouldFindByIdForCardId() {
+        when(therapyService.findByIdForCardId(ID_1, ID_2)).thenReturn(therapy);
         when(therapyConverter.convert(therapy)).thenReturn(responseTherapyDTO);
 
-        ResponseTherapyDTO responseTherapyFromFacade = therapyFacade.findByIdForPatientId(ID_1, ID_2);
+        ResponseTherapyDTO responseTherapyFromFacade = therapyFacade.findByIdForCardId(ID_1, ID_2);
 
         assertEquals(responseTherapyFromFacade.getId(), ID_1);
         assertEquals(responseTherapyFromFacade.getDescription(), DESCRIPTION);
         assertEquals(responseTherapyFromFacade.getDoctorId(), ID_1);
-        assertEquals(responseTherapyFromFacade.getPatientId(), ID_2);
+        assertEquals(responseTherapyFromFacade.getCardId(), ID_1);
         assertEquals(responseTherapyFromFacade.getEndDate(), END_DATE);
         assertEquals(responseTherapyFromFacade.getStartDate(), START_DATE);
 
-        verify(therapyService).findByIdForPatientId(ID_1, ID_2);
+        verify(therapyService).findByIdForCardId(ID_1, ID_2);
         verify(therapyConverter).convert(therapy);
 
     }
 
     @Test
-    void shouldThrowEntityNotFoundHospitalServiceExceptionWhenTherapyNotFoundByIdForPatientId() {
-        when(therapyService.findByIdForPatientId(ID_1, ID_2)).thenThrow(EntityNotFoundHospitalServiceException.class);
-        assertThrows(EntityNotFoundHospitalServiceException.class, () -> therapyFacade.findByIdForPatientId(ID_1, ID_2));
+    void shouldThrowEntityNotFoundHospitalServiceExceptionWhenTherapyNotFoundByIdForCardId() {
+        when(therapyService.findByIdForCardId(ID_1, ID_2)).thenThrow(EntityNotFoundHospitalServiceException.class);
+        assertThrows(EntityNotFoundHospitalServiceException.class, () -> therapyFacade.findByIdForCardId(ID_1, ID_2));
     }
 
     @Test
     void shouldFindAllByPatientId() {
-        when(therapyService.findAllForPatientId(ID_2)).thenReturn(therapies);
+        when(therapyService.findAllForCardId(ID_2)).thenReturn(therapies);
         when(therapyConverter.convertAll(therapies)).thenReturn(therapiesDTO);
 
-        List<ResponseTherapyDTO> therapiesDtoFromFacade = therapyFacade.findAllByPatientId(ID_2);
+        List<ResponseTherapyDTO> therapiesDtoFromFacade = therapyFacade.findAllByCardId(ID_2);
 
         assertNotNull(therapiesDtoFromFacade);
         ResponseTherapyDTO responseTherapyFromFacade = therapiesDtoFromFacade.get(0);
@@ -215,11 +214,11 @@ class TherapyFacadeImplTest {
         assertEquals(responseTherapyFromFacade.getId(), ID_1);
         assertEquals(responseTherapyFromFacade.getDescription(), DESCRIPTION);
         assertEquals(responseTherapyFromFacade.getDoctorId(), ID_1);
-        assertEquals(responseTherapyFromFacade.getPatientId(), ID_2);
+        assertEquals(responseTherapyFromFacade.getCardId(), ID_1);
         assertEquals(responseTherapyFromFacade.getEndDate(), END_DATE);
         assertEquals(responseTherapyFromFacade.getStartDate(), START_DATE);
 
-        verify(therapyService).findAllForPatientId(ID_2);
+        verify(therapyService).findAllForCardId(ID_2);
         verify(therapyConverter).convertAll(therapies);
 
     }

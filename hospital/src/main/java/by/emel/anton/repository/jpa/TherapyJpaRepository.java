@@ -10,7 +10,7 @@ import java.util.Optional;
 @Component
 public interface TherapyJpaRepository extends JpaRepository<Therapy,Integer> {
 
-    Optional<Therapy> findTherapyByIdAndPatientId(int id, int patientId);
+    Optional<Therapy> findTherapyByIdAndCardId(int id, int patientId);
 
-    List<Therapy> findAllByPatientId(int patientId);
+    List<Therapy> findAllByCardId(int patientId);
 }

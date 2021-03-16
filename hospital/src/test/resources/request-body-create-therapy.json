@@ -1,0 +1,6 @@
+{
+  "description": "Description from json file",
+  "endDate": "2050-01-01",
+  "patientId": 2,
+  "startDate": "2030-01-01"
+}

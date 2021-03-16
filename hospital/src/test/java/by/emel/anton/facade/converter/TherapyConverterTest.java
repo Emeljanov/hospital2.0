@@ -27,7 +27,6 @@ class TherapyConverterTest {
     private final static LocalDate BIRTHDAY = LocalDate.of(2000, 01, 01);
     private final static LocalDate START_DATE = LocalDate.of(2021, 1, 1);
     private final static LocalDate END_DATE = LocalDate.of(2025, 1, 1);
-    private final static Role ROLE = Role.ADMIN;
     private final static int ID_1 = 1;
     private final static int ID_2 = 2;
     private final static String DESCRIPTION = "description";
@@ -68,23 +67,24 @@ class TherapyConverterTest {
                 .birthday(BIRTHDAY)
                 .build();
 
+        patientCard = PatientCard.builder()
+                .id(ID_1)
+                .patient(patient)
+                .therapies(therapies)
+                .build();
+
         therapy = Therapy.builder()
                 .id(ID_1)
                 .card(patientCard)
                 .description(DESCRIPTION)
                 .doctor(doctor)
-                .patient(patient)
                 .startDate(START_DATE)
                 .endDate(END_DATE)
                 .build();
 
         therapies.add(therapy);
 
-        patientCard = PatientCard.builder()
-                .id(ID_1)
-                .patient(patient)
-                .therapies(therapies)
-                .build();
+
     }
 
     @Test
@@ -94,8 +94,8 @@ class TherapyConverterTest {
         assertEquals(responseTherapyDTO.getId(), ID_1);
         assertEquals(responseTherapyDTO.getDescription(), DESCRIPTION);
         assertEquals(responseTherapyDTO.getDoctorId(), ID_1);
-        assertEquals(responseTherapyDTO.getPatientId(), ID_2);
         assertEquals(responseTherapyDTO.getEndDate(), END_DATE);
         assertEquals(responseTherapyDTO.getStartDate(), START_DATE);
+        assertEquals(responseTherapyDTO.getCardId(),ID_1);
     }
 }

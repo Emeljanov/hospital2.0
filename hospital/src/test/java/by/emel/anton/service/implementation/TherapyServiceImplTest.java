@@ -86,7 +86,7 @@ class TherapyServiceImplTest {
                 .description(DESCRIPTION)
                 .card(patientCard)
                 .doctor(doctor)
-                .patient(patient)
+//                .patient(patient)
                 .startDate(START_DATE)
                 .endDate(END_DATE)
                 .build();
@@ -115,13 +115,13 @@ class TherapyServiceImplTest {
         assertEquals(therapyFromTest.getDoctor().getLogin(), LOGIN);
         assertEquals(therapyFromTest.getDoctor().getPass(), PASS);
 
-        assertEquals(therapyFromTest.getPatient().getId(), ID_2);
+        /*assertEquals(therapyFromTest.getPatient().getId(), ID_2);
         assertEquals(therapyFromTest.getPatient().getLogin(), LOGIN);
         assertEquals(therapyFromTest.getPatient().getPass(), PASS);
         assertEquals(therapyFromTest.getPatient().getFirstName(), FIRST_NAME);
         assertEquals(therapyFromTest.getPatient().getLastName(), LAST_NAME);
         assertEquals(therapyFromTest.getPatient().getRole(), Role.PATIENT);
-        assertEquals(therapyFromTest.getPatient().getBirthday(), BIRTHDAY);
+        assertEquals(therapyFromTest.getPatient().getBirthday(), BIRTHDAY);*/
 
 
         verify(therapyDao).save(therapy);
@@ -135,7 +135,7 @@ class TherapyServiceImplTest {
         assertEquals(therapyFromTest.getId(), ID_1);
         assertEquals(therapyFromTest.getCard(), patientCard);
         assertEquals(therapyFromTest.getDoctor(), doctor);
-        assertEquals(therapyFromTest.getPatient(), patient);
+//        assertEquals(therapyFromTest.getPatient(), patient);
         assertEquals(therapyFromTest.getDescription(), DESCRIPTION);
         assertEquals(therapyFromTest.getEndDate(), END_DATE);
         assertEquals(therapyFromTest.getStartDate(), START_DATE);
@@ -160,7 +160,7 @@ class TherapyServiceImplTest {
         assertEquals(therapyFromTest.getId(), ID_1);
         assertEquals(therapyFromTest.getCard(), patientCard);
         assertEquals(therapyFromTest.getDoctor(), doctor);
-        assertEquals(therapyFromTest.getPatient(), patient);
+//        assertEquals(therapyFromTest.getPatient(), patient);
         assertEquals(therapyFromTest.getDescription(), DESCRIPTION);
         assertEquals(therapyFromTest.getEndDate(), END_DATE);
         assertEquals(therapyFromTest.getStartDate(), START_DATE);
@@ -170,19 +170,19 @@ class TherapyServiceImplTest {
 
     @Test
     void shouldFindByIdForPatientId() {
-        when(therapyDao.findByIdForPatientId(ID_1, ID_2)).thenReturn(Optional.of(therapy));
+        when(therapyDao.findByIdForCardId(ID_1, ID_2)).thenReturn(Optional.of(therapy));
 
-        Therapy therapyFromTest = therapyService.findByIdForPatientId(ID_1, ID_2);
+        Therapy therapyFromTest = therapyService.findByIdForCardId(ID_1, ID_2);
 
         assertEquals(therapyFromTest.getId(), ID_1);
         assertEquals(therapyFromTest.getCard(), patientCard);
         assertEquals(therapyFromTest.getDoctor(), doctor);
-        assertEquals(therapyFromTest.getPatient(), patient);
+//        assertEquals(therapyFromTest.getPatient(), patient);
         assertEquals(therapyFromTest.getDescription(), DESCRIPTION);
         assertEquals(therapyFromTest.getEndDate(), END_DATE);
         assertEquals(therapyFromTest.getStartDate(), START_DATE);
 
-        verify(therapyDao).findByIdForPatientId(ID_1, ID_2);
+        verify(therapyDao).findByIdForCardId(ID_1, ID_2);
     }
 
     @Test
@@ -193,19 +193,19 @@ class TherapyServiceImplTest {
 
     @Test
     void shouldFindAllForPatientId() {
-        when(therapyDao.findAllByPatientId(ID_2)).thenReturn(therapies);
+        when(therapyDao.findAllByCardId(ID_2)).thenReturn(therapies);
 
-        List<Therapy> therapiesFromTest = therapyService.findAllForPatientId(ID_2);
+        List<Therapy> therapiesFromTest = therapyService.findAllForCardId(ID_2);
         Therapy therapyFromTest = therapiesFromTest.get(0);
 
         assertEquals(therapyFromTest.getId(), ID_1);
         assertEquals(therapyFromTest.getCard(), patientCard);
         assertEquals(therapyFromTest.getDoctor(), doctor);
-        assertEquals(therapyFromTest.getPatient(), patient);
+//        assertEquals(therapyFromTest.getPatient(), patient);
         assertEquals(therapyFromTest.getDescription(), DESCRIPTION);
         assertEquals(therapyFromTest.getEndDate(), END_DATE);
         assertEquals(therapyFromTest.getStartDate(), START_DATE);
 
-        verify(therapyDao).findAllByPatientId(ID_2);
+        verify(therapyDao).findAllByCardId(ID_2);
     }
 }

@@ -9,19 +9,19 @@ import by.emel.anton.facade.converter.Converter;
 import by.emel.anton.service.PatientCardService;
 import by.emel.anton.service.TherapyService;
 import by.emel.anton.service.UserService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TherapyFacadeImpl implements TherapyFacade {
 
-    private TherapyService therapyService;
-    private UserService userService;
-    private PatientCardService patientCardService;
-    private Converter<Therapy, ResponseTherapyDTO> therapyConverter;
+    private final TherapyService therapyService;
+    private final UserService userService;
+    private final PatientCardService patientCardService;
+    private final Converter<Therapy, ResponseTherapyDTO> therapyConverter;
 
 
     @Override
@@ -35,7 +35,6 @@ public class TherapyFacadeImpl implements TherapyFacade {
                 .description(requestTherapyDTO.getDescription())
                 .startDate(requestTherapyDTO.getStartDate())
                 .endDate(requestTherapyDTO.getEndDate())
-                .patient(patient)
                 .doctor(doctor)
                 .card(patientCard)
                 .build();
@@ -54,12 +53,12 @@ public class TherapyFacadeImpl implements TherapyFacade {
     }
 
     @Override
-    public ResponseTherapyDTO findByIdForPatientId(int therapyId, int patientId) {
-        return therapyConverter.convert(therapyService.findByIdForPatientId(therapyId, patientId));
+    public ResponseTherapyDTO findByIdForCardId(int therapyId, int patientId) {
+        return therapyConverter.convert(therapyService.findByIdForCardId(therapyId, patientId));
     }
 
     @Override
-    public List<ResponseTherapyDTO> findAllByPatientId(int patientId) {
-        return therapyConverter.convertAll(therapyService.findAllForPatientId(patientId));
+    public List<ResponseTherapyDTO> findAllByCardId(int patientId) {
+        return therapyConverter.convertAll(therapyService.findAllForCardId(patientId));
     }
 }

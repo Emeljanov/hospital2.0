@@ -13,8 +13,8 @@ public class TherapyConverter implements Converter<Therapy, ResponseTherapyDTO> 
                 .description(from.getDescription())
                 .startDate(from.getStartDate())
                 .endDate(from.getEndDate())
-                .patientId(from.getPatient().getId())
                 .doctorId(from.getDoctor().getId())
+                .cardId(from.getCard().getId())
                 .build();
     }
 }

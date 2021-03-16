@@ -13,8 +13,8 @@ public interface TherapyDao {
 
     List<Therapy> findAll();
 
-    Optional<Therapy> findByIdForPatientId(int therapyId, int patientId);
+    Optional<Therapy> findByIdForCardId(int therapyId, int patientId);
 
-    List<Therapy> findAllByPatientId(int patientId);
+    List<Therapy> findAllByCardId(int patientId);
 
 }

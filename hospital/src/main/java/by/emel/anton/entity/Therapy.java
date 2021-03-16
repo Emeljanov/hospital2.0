@@ -1,16 +1,15 @@
 package by.emel.anton.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
 @Entity
 @Builder
 public class Therapy {
@@ -33,11 +32,18 @@ public class Therapy {
     private PatientCard card;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "patient_id", nullable = false)
-    private User patient;
-
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "doctor_id", nullable = false)
     private User doctor;
 
+    @Override
+    public String toString() {
+        return "Therapy{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", cardId=" + card.getId() +
+                ", doctor=" + doctor +
+                '}';
+    }
 }
