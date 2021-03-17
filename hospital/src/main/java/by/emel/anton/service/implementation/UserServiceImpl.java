@@ -6,17 +6,19 @@ import by.emel.anton.service.UserService;
 import by.emel.anton.service.exception.EntityNotFoundHospitalServiceException;
 import by.emel.anton.service.exception.UserServiceException;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+//@AllArgsConstructor
+@RequiredArgsConstructor
 @Transactional
 public class UserServiceImpl implements UserService {
 
-    private UserDao userDao;
+    private final UserDao userDao;
 
     @Override
     public User save(User user) {

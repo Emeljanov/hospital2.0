@@ -25,7 +25,7 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(SpringExtension.class)
+/*@ExtendWith(SpringExtension.class)*/
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
