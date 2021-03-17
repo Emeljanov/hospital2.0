@@ -69,7 +69,7 @@ class UsersRestControllerTest {
                 .andReturn();
 
         JSONArray jsonArray = new JSONArray(mvcResult.getResponse().getContentAsString());
-        assertEquals(jsonArray.length(), 4);
+        assertEquals(jsonArray.length(), 6);
 
         JSONObject doctorJson = jsonArray.getJSONObject(0);
         assertEquals(doctorJson.getInt(ID), 1);
@@ -101,6 +101,23 @@ class UsersRestControllerTest {
     }
 
     @Test
+    @WithUserDetails("patient")
+    void shouldGetUnauthorizedStatusWhenNoAuthorizationInGet() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                .get("/api/v1/users"))
+                .andExpect(status().isUnauthorized())
+                .andReturn();
+    }
+
+    @Test
+    void shouldGetBadRequestStatusWhenNoAuthenticationInGet() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                .get("/api/v1/users"))
+                .andExpect(status().isForbidden())
+                .andReturn();
+    }
+
+    @Test
     @WithUserDetails("admin")
     void shouldFindUserById() throws Exception {
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
@@ -119,6 +136,33 @@ class UsersRestControllerTest {
         assertTrue(userJson.getBoolean(ACTIVE));
 
     }
+
+    @Test
+    @WithUserDetails("doctor")
+    void shouldGetBadRequestStatusWhenEntityNotFind() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                .get("/api/v1/users/{id}", 0))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+    @Test
+    @WithUserDetails("patient")
+    void shouldGetUnauthorizedStatusWhenNoAuthorizationInGetById() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                .get("/api/v1/users/{id}", 1))
+                .andExpect(status().isUnauthorized())
+                .andReturn();
+    }
+
+    @Test
+    void shouldGetBadRequestStatusWhenNoAuthenticationInGetById() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                .get("/api/v1/users/{1}", 1))
+                .andExpect(status().isForbidden())
+                .andReturn();
+    }
+
 
     @Test
     @WithUserDetails("admin")
@@ -152,6 +196,37 @@ class UsersRestControllerTest {
 
     }
 
+
+    @Test
+    @WithUserDetails("doctor")
+    void shouldGetBadRequestStatusWhenNoRequestBodyInPost() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                .post("/api/v1/users"))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+    @Test
+    @WithUserDetails("patient")
+    void shouldGetUnauthorizedStatusWhenNoAuthorizationInPost() throws Exception {
+        String userString = getJsonStringFromFile(REQUEST_BODY_PATIENT_PATH);
+
+        mockMvc.perform(MockMvcRequestBuilders
+                .post("/api/v1/users").content(userString).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized())
+                .andReturn();
+    }
+
+    @Test
+    void shouldGetBadRequestStatusWhenNoAuthenticationInPost() throws Exception {
+        String userString = getJsonStringFromFile(REQUEST_BODY_PATIENT_PATH);
+
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
+                .post("/api/v1/users").content(userString).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden())
+                .andReturn();
+    }
+
    /* @Test
     @WithUserDetails("admin")
     void deleteUserById() throws Exception {
@@ -182,6 +257,35 @@ class UsersRestControllerTest {
         assertEquals(jsonUser.get(ROLE_STRING), Role.DOCTOR.toString());
         assertFalse(jsonUser.getBoolean(ACTIVE));
     }
+
+    @Test
+    @WithUserDetails("admin")
+    void shouldGetBadRequestStatusWhenNoAuthorizationInPut() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders
+                .put("/api/v1/users/change/status/{userId}/{isActive}", 0, false))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+    @Test
+    @WithUserDetails("doctor")
+    void shouldGetUnauthorizedStatusWhenNoAuthorizationInPut() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders
+                .put("/api/v1/users/change/status/{userId}/{isActive}", 1, false))
+                .andExpect(status().isUnauthorized())
+                .andReturn();
+    }
+
+    @Test
+    void shouldGetBadRequestStatusWhenNoAuthenticationInPut() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                .put("/api/v1/users/change/status/{userId}/{isActive}", 1, false))
+                .andExpect(status().isForbidden())
+                .andReturn();
+    }
+
 
     private String getJsonStringFromFile(String path) throws IOException {
         return Files.readString(Paths.get(path));
