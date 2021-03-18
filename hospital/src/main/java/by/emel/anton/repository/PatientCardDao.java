@@ -14,4 +14,8 @@ public interface PatientCardDao {
 
     List<PatientCard> findAll();
 
+    void deleteById(int id);
+
+    void deleteAll();
+
 }

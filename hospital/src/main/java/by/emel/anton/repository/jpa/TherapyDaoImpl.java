@@ -31,11 +31,17 @@ public class TherapyDaoImpl implements TherapyDao {
 
     @Override
     public Optional<Therapy> findByIdForCardId(int therapyId, int patientId) {
-        return therapyJpaRepository.findTherapyByIdAndCardId(therapyId, patientId);
+//        return therapyJpaRepository.findTherapyByIdAndCardId(therapyId, patientId);
+        return Optional.empty();
     }
 
     @Override
     public List<Therapy> findAllByCardId(int patientId) {
         return therapyJpaRepository.findAllByCardId(patientId);
+    }
+
+    @Override
+    public void deleteAll() {
+        therapyJpaRepository.deleteAll();
     }
 }

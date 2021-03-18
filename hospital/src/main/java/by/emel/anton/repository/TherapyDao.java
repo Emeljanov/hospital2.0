@@ -17,4 +17,6 @@ public interface TherapyDao {
 
     List<Therapy> findAllByCardId(int patientId);
 
+    void deleteAll();
+
 }

@@ -27,11 +27,11 @@ public class Therapy {
     @Column
     private LocalDate endDate;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER/*, cascade = CascadeType.ALL*/)
     @JoinColumn(name = "patient_card_id", nullable = false)
     private PatientCard card;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER/*, cascade = CascadeType.ALL*/)
     @JoinColumn(name = "doctor_id", nullable = false)
     private User doctor;
 

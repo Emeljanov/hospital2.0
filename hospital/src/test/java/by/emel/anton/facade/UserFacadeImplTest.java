@@ -10,6 +10,7 @@ import by.emel.anton.service.exception.EntityNotFoundHospitalServiceException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -61,18 +62,14 @@ class UserFacadeImplTest {
     }
 
     @Test
-    void shouldCallMethodsInFindByLogin() {
+    void shouldFindByLoginWhenExist() {
 
         when(userService.findByLogin(LOGIN)).thenReturn(user);
         when(userConverter.convert(user)).thenReturn(responseUserDTO);
-        ResponseUserDTO responseUserFromFacade = userFacade.findByLogin(LOGIN);
 
-        assertEquals(responseUserFromFacade.getId(), ID);
-        assertEquals(responseUserFromFacade.getLogin(), LOGIN);
-        assertEquals(responseUserFromFacade.getBirthday(), BIRTHDAY);
-        assertEquals(responseUserFromFacade.getFirstName(), FIRST_NAME);
-        assertEquals(responseUserFromFacade.getLastName(), LAST_NAME);
-        assertEquals(responseUserFromFacade.getRoleString(), ROLE.toString());
+        ResponseUserDTO actualUserDTO = userFacade.findByLogin(LOGIN);
+
+        assertEquals(responseUserDTO, actualUserDTO);
 
         verify(userService).findByLogin(LOGIN);
         verify(userConverter).convert(user);
@@ -80,13 +77,16 @@ class UserFacadeImplTest {
 
     @Test
     void shouldThrowEntityNotFoundHospitalServiceExceptionWhenUserNotFoundByLogin() {
-        when(userService.findByLogin(LOGIN)).thenThrow(EntityNotFoundHospitalServiceException.class);
-        assertThrows(EntityNotFoundHospitalServiceException.class, () -> userFacade.findByLogin(LOGIN));
+        final EntityNotFoundHospitalServiceException  ExpectedException = new EntityNotFoundHospitalServiceException("some");
+        when(userService.findByLogin(LOGIN)).thenThrow(ExpectedException);
+        EntityNotFoundHospitalServiceException actualException
+                = assertThrows(EntityNotFoundHospitalServiceException.class, () -> userFacade.findByLogin(LOGIN));
+        //verify
     }
 
 
     @Test
-    void shouldCallMethodsInFindById() {
+    void shouldFindByIdWhenUserExist() {
 
         when(userService.findById(ID)).thenReturn(user);
         when(userConverter.convert(user)).thenReturn(responseUserDTO);

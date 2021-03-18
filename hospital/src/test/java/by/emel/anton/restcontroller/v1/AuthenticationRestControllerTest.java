@@ -1,9 +1,12 @@
 package by.emel.anton.restcontroller.v1;
 
 import by.emel.anton.entity.Role;
+import by.emel.anton.repository.jpa.PatientCardJpaRepository;
+import by.emel.anton.repository.jpa.TherapyJpaRepository;
+import by.emel.anton.repository.jpa.UserJpaRepository;
 import org.json.JSONObject;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,11 +14,9 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -28,12 +29,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /*@ExtendWith(SpringExtension.class)*/
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
+//@Transactional
 @Sql(value = {"classpath:before-each.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 class AuthenticationRestControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private UserJpaRepository userJpaRepository;
+    @Autowired
+    private TherapyJpaRepository therapyJpaRepository;
+    @Autowired
+    private PatientCardJpaRepository patientCardJpaRepository;
 
     private final String REQUEST_BODY_USER_PATH = "src/test/resources/request-body-login-user.json";
     private final String REQUEST_BODY_WRONG_USER_PATH = "src/test/resources/request-body-login-wrong-user.json";
@@ -46,6 +53,14 @@ class AuthenticationRestControllerTest {
     private final String KEY_BIRTHDAY = "birthday";
     private final String KEY_ACTIVE = "active";
     private final LocalDate adminBirthday = LocalDate.of(1800, 1, 1);
+
+   /* @AfterEach
+    void clearDB() {
+        patientCardJpaRepository.deleteAll();
+        therapyJpaRepository.deleteAll();
+        userJpaRepository.deleteAll();
+    }*/
+
 
     @Test
     void shouldAuthenticate() throws Exception {

@@ -14,4 +14,6 @@ public interface PatientCardService {
 
     List<PatientCard> findAll();
 
+    void deleteById(int id);
+
 }

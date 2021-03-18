@@ -19,4 +19,6 @@ public interface UserDao {
 
     void deleteById(int id);
 
+    void deleteAll();
+
 }

@@ -34,4 +34,14 @@ public class PatientCardDaoImpl implements PatientCardDao {
         return patientCardJpaRepository.findAll();
     }
 
+    @Override
+    public void deleteById(int id) {
+        patientCardJpaRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteAll() {
+        patientCardJpaRepository.deleteAll();
+    }
+
 }

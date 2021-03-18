@@ -44,4 +44,9 @@ public class UserDaoImp implements UserDao {
         userJpaRepository.deleteById(id);
     }
 
+    @Override
+    public void deleteAll() {
+        userJpaRepository.deleteAll();
+    }
+
 }

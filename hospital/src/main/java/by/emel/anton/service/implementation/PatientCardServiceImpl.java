@@ -37,4 +37,9 @@ public class PatientCardServiceImpl implements PatientCardService {
         return patientCardDao.findAll();
     }
 
+    @Override
+    public void deleteById(int id) {
+        patientCardDao.deleteById(id);
+    }
+
 }
