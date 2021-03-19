@@ -53,8 +53,8 @@ public class TherapyFacadeImpl implements TherapyFacade {
     }
 
     @Override
-    public ResponseTherapyDTO findByIdForCardId(int therapyId, int patientId) {
-        return therapyConverter.convert(therapyService.findByIdForCardId(therapyId, patientId));
+    public ResponseTherapyDTO findByIdForCardId(int therapyId, int cardId) {
+        return therapyConverter.convert(therapyService.findByIdForCardId(therapyId, cardId));
     }
 
     @Override

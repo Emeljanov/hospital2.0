@@ -33,8 +33,8 @@ public class TherapyServiceImpl implements TherapyService {
     }
 
     @Override
-    public Therapy findByIdForCardId(int therapyId, int patientId) {
-        return therapyDao.findByIdForCardId(therapyId, patientId).orElseThrow(() -> new EntityNotFoundHospitalServiceException("Can't find therapy for this patient"));
+    public Therapy findByIdForCardId(int therapyId, int cardId) {
+        return therapyDao.findByIdForCardId(therapyId, cardId).orElseThrow(() -> new EntityNotFoundHospitalServiceException("Can't find therapy for this patient"));
     }
 
     @Override

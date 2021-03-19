@@ -1,5 +1,3 @@
---set SQL_SAFE_UPDATES = 0;
-
 delete from therapy;
 delete from patient_card;
 delete from user;

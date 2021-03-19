@@ -12,7 +12,7 @@ public interface TherapyService {
 
     List<Therapy> findAll();
 
-    Therapy findByIdForCardId(int therapyId, int patientId);
+    Therapy findByIdForCardId(int therapyId, int cardId);
 
     List<Therapy> findAllForCardId(int patientId);
 }

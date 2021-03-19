@@ -13,7 +13,7 @@ public interface TherapyFacade {
 
     List<ResponseTherapyDTO> findAll();
 
-    ResponseTherapyDTO findByIdForCardId(int therapyId, int patientId);
+    ResponseTherapyDTO findByIdForCardId(int therapyId, int cardId);
 
     List<ResponseTherapyDTO> findAllByCardId(int patientId);
 

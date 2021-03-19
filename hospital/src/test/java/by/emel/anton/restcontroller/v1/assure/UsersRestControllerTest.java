@@ -1,5 +1,7 @@
 package by.emel.anton.restcontroller.v1.assure;
 
+import by.emel.anton.entity.Role;
+import by.emel.anton.entity.User;
 import by.emel.anton.facade.PatientCardFacade;
 import by.emel.anton.facade.TherapyFacade;
 import by.emel.anton.facade.UserFacade;
@@ -10,30 +12,31 @@ import by.emel.anton.repository.jpa.UserJpaRepository;
 import by.emel.anton.service.PatientCardService;
 import by.emel.anton.service.TherapyService;
 import by.emel.anton.service.UserService;
-import by.emel.anton.service.implementation.PatientCardServiceImpl;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
+import io.restassured.http.Header;
+import io.restassured.parsing.Parser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 
-//@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@Transactional//vot tyt trabl, with delete from
 @Sql(value = {"classpath:before-each.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+
 class UsersRestControllerTest {
 
     private final String REQUEST_BODY_USER_PATH = "src/test/resources/request-body-login-user1.json";
+    private final String AUTH = "Authorization";
 
     @Autowired
     UserJpaRepository userJpaRepository;
@@ -58,20 +61,16 @@ class UsersRestControllerTest {
 
     @Autowired
     PatientCardDao patientCardDao;
- /*   @Autowired
-    MockMvc mockMvc;*/
 
 
     @LocalServerPort
-    private int portt;
+    private int port;
 
 
     @BeforeEach
     void beforeAll() {
-//        RestAssured.baseURI = "http://localhost:8080/";
-//        RestAssured.basic("admin","admin");
-        RestAssured.port = portt;
-      /*  User user1 = User.builder()
+        RestAssured.port = port;
+        User user1 = User.builder()
                 .login("blag")
                 .pass("blag")
                 .role(Role.ADMIN)
@@ -82,20 +81,23 @@ class UsersRestControllerTest {
                 .build();
 
 
-        userJpaRepository.save(user1);*/
+        userJpaRepository.save(user1);
+
 
     }
-    @AfterEach
-    void afterAll() {
-        patientCardDao.deleteAll();
-        therapyDao.deleteAll();
-        userDao.deleteAll();
-    }
-
-
 
     @Test
-    void findAll() {
+    void findAll() throws IOException {
+
+        String tokenAdmin = RestAssured
+                .given().contentType(ContentType.JSON)
+                .body(getJsonStringFromFile(REQUEST_BODY_USER_PATH))
+                .when()
+                .post("/api/v1/auth/login").jsonPath().get("token");
+        Header headerAdmin = new Header(AUTH, tokenAdmin);
+
+        RestAssured.given().header(headerAdmin).when().get("/api/v1/users").asString();
+
 
     }
 
@@ -142,7 +144,29 @@ class UsersRestControllerTest {
     }
 
     @Test
+//    @WithUserDetails("admin")
     void deleteUserById() {
+        RestAssured.defaultParser = Parser.JSON;
+
+
+        RestAssured.given()
+                .when()
+                .get("/api/v1/therapies").then().contentType(ContentType.JSON).extract().response();
+
+
+
+       /* String token  =
+                RestAssured
+                        .given().contentType(ContentType.JSON)
+                        .body(getJsonStringFromFile(REQUEST_BODY_USER_PATH))
+                        .when()
+                        .post("/api/v1/auth/login").jsonPath().get("token");
+
+        RestAssured.given().header(new Header("Authorization",token)).when().get("/api/v1/therapies").asString()*/
+
+
+//        System.out.println(st);
+
     }
 
     @Test
