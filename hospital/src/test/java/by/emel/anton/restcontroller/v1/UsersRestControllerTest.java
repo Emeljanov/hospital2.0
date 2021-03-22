@@ -223,19 +223,6 @@ class UsersRestControllerTest {
                 .andReturn();
     }
 
-   /* @Test
-    @WithUserDetails("admin")
-    void deleteUserById() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
-                .delete("/api/v1/users/{id}", 1, false))
-                .andExpect(status().isOk())
-                .andReturn();
-
-
-        assertFalse(userJpaRepository.existsById(1));
-
-    }*/
-
     @Test
     @WithUserDetails("admin")
     void shouldChangeUserStatus() throws Exception {

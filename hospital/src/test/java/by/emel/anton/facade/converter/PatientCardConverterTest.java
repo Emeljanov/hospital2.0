@@ -57,49 +57,35 @@ class PatientCardConverterTest {
         responseTherapiesDTO = new ArrayList<>();
 
         doctor = User.builder()
-                .id(ID_1)
-                .login(LOGIN)
-                .pass(PASS)
-                .firstName(FIRST_NAME)
-                .lastName(LAST_NAME)
-                .isActive(true)
-                .role(Role.ADMIN)
+                .id(ID_1).login(LOGIN).pass(PASS)
+                .firstName(FIRST_NAME).lastName(LAST_NAME)
+                .isActive(true).role(Role.ADMIN)
                 .birthday(BIRTHDAY)
                 .build();
 
         patient = User.builder()
-                .id(ID_2)
-                .login(LOGIN)
-                .pass(PASS)
-                .firstName(FIRST_NAME)
-                .lastName(LAST_NAME)
-                .isActive(true)
-                .role(Role.PATIENT)
+                .id(ID_2).login(LOGIN).pass(PASS)
+                .firstName(FIRST_NAME).lastName(LAST_NAME)
+                .isActive(true).role(Role.PATIENT)
                 .birthday(BIRTHDAY)
                 .build();
 
         therapy = Therapy.builder()
-                .id(ID_1)
-                .card(patientCard)
-                .description(DESCRIPTION)
-                .doctor(doctor)
-                .startDate(START_DATE)
-                .endDate(END_DATE)
+                .id(ID_1).card(patientCard)
+                .description(DESCRIPTION).doctor(doctor)
+                .startDate(START_DATE).endDate(END_DATE)
                 .build();
 
         therapies.add(therapy);
 
         patientCard = PatientCard.builder()
-                .id(ID_1)
-                .patient(patient)
+                .id(ID_1).patient(patient)
                 .therapies(therapies)
                 .build();
 
         responseTherapyDTO = ResponseTherapyDTO.builder()
-                .id(ID_1)
-                .description(DESCRIPTION)
-                .doctorId(ID_1)
-                .startDate(START_DATE)
+                .id(ID_1).description(DESCRIPTION)
+                .doctorId(ID_1).startDate(START_DATE)
                 .endDate(END_DATE)
                 .build();
 
@@ -112,11 +98,11 @@ class PatientCardConverterTest {
 
         when(therapyConverter.convertAll(therapies)).thenReturn(responseTherapiesDTO);
 
-        ResponsePatientCardDTO responsePCardFromFacade = patientCardConverter.convert(patientCard);
+        ResponsePatientCardDTO actualCardDTO = patientCardConverter.convert(patientCard);
 
-        assertEquals(responsePCardFromFacade.getId(), ID_1);
-        assertEquals(responsePCardFromFacade.getPatientId(), ID_2);
-        assertEquals(responsePCardFromFacade.getTherapyDTOList(), responseTherapiesDTO);
+        assertEquals(ID_1, actualCardDTO.getId());
+        assertEquals(ID_2, actualCardDTO.getPatientId());
+        assertEquals(responseTherapiesDTO, actualCardDTO.getTherapyDTOList());
 
         verify(therapyConverter).convertAll(therapies);
 

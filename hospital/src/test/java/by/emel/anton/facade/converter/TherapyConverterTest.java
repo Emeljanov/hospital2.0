@@ -46,56 +46,43 @@ class TherapyConverterTest {
         therapies = new ArrayList<>();
 
         doctor = User.builder()
-                .id(ID_1)
-                .login(LOGIN)
-                .pass(PASS)
-                .firstName(FIRST_NAME)
-                .lastName(LAST_NAME)
-                .isActive(true)
-                .role(Role.ADMIN)
+                .id(ID_1).login(LOGIN).pass(PASS)
+                .firstName(FIRST_NAME).lastName(LAST_NAME)
+                .isActive(true).role(Role.ADMIN)
                 .birthday(BIRTHDAY)
                 .build();
 
         patient = User.builder()
-                .id(ID_2)
-                .login(LOGIN)
-                .pass(PASS)
-                .firstName(FIRST_NAME)
-                .lastName(LAST_NAME)
-                .isActive(true)
-                .role(Role.PATIENT)
+                .id(ID_2).login(LOGIN).pass(PASS)
+                .firstName(FIRST_NAME).lastName(LAST_NAME)
+                .isActive(true).role(Role.PATIENT)
                 .birthday(BIRTHDAY)
                 .build();
 
         patientCard = PatientCard.builder()
-                .id(ID_1)
-                .patient(patient)
+                .id(ID_1).patient(patient)
                 .therapies(therapies)
                 .build();
 
         therapy = Therapy.builder()
-                .id(ID_1)
-                .card(patientCard)
-                .description(DESCRIPTION)
-                .doctor(doctor)
-                .startDate(START_DATE)
-                .endDate(END_DATE)
+                .id(ID_1).card(patientCard)
+                .description(DESCRIPTION).doctor(doctor)
+                .startDate(START_DATE).endDate(END_DATE)
                 .build();
 
         therapies.add(therapy);
-
 
     }
 
     @Test
     void shouldConvert() {
-        ResponseTherapyDTO responseTherapyDTO = therapyConverter.convert(therapy);
+        ResponseTherapyDTO actualTherapyDTO = therapyConverter.convert(therapy);
 
-        assertEquals(responseTherapyDTO.getId(), ID_1);
-        assertEquals(responseTherapyDTO.getDescription(), DESCRIPTION);
-        assertEquals(responseTherapyDTO.getDoctorId(), ID_1);
-        assertEquals(responseTherapyDTO.getEndDate(), END_DATE);
-        assertEquals(responseTherapyDTO.getStartDate(), START_DATE);
-        assertEquals(responseTherapyDTO.getCardId(),ID_1);
+        assertEquals(ID_1, actualTherapyDTO.getId());
+        assertEquals(DESCRIPTION, actualTherapyDTO.getDescription());
+        assertEquals(ID_1, actualTherapyDTO.getDoctorId());
+        assertEquals(END_DATE, actualTherapyDTO.getEndDate());
+        assertEquals(START_DATE, actualTherapyDTO.getStartDate());
+        assertEquals(ID_1, actualTherapyDTO.getCardId());
     }
 }

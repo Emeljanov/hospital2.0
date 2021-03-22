@@ -5,7 +5,6 @@ import by.emel.anton.repository.jpa.PatientCardJpaRepository;
 import by.emel.anton.repository.jpa.TherapyJpaRepository;
 import by.emel.anton.repository.jpa.UserJpaRepository;
 import org.json.JSONObject;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -17,7 +16,6 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -52,14 +50,6 @@ class AuthenticationRestControllerTest {
     private final String KEY_BIRTHDAY = "birthday";
     private final String KEY_ACTIVE = "active";
     private final LocalDate adminBirthday = LocalDate.of(1800, 1, 1);
-
-   /* @AfterEach
-    void clearDB() {
-        patientCardJpaRepository.deleteAll();
-        therapyJpaRepository.deleteAll();
-        userJpaRepository.deleteAll();
-    }*/
-
 
     @Test
     void shouldAuthenticate() throws Exception {

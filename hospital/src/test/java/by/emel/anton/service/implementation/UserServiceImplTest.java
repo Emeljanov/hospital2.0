@@ -45,14 +45,9 @@ class UserServiceImplTest {
         users = new ArrayList<>();
 
         user = User.builder()
-                .id(ID_1)
-                .login(LOGIN)
-                .pass(PASS)
-                .role(ROLE)
-                .isActive(true)
-                .birthday(BIRTHDAY)
-                .firstName(FIRST_NAME)
-                .lastName(LAST_NAME)
+                .id(ID_1).login(LOGIN).pass(PASS)
+                .role(ROLE).isActive(true).birthday(BIRTHDAY)
+                .firstName(FIRST_NAME).lastName(LAST_NAME)
                 .build();
 
         users.add(user);
@@ -62,13 +57,9 @@ class UserServiceImplTest {
     void shouldSave() {
         when(userDao.save(user)).thenReturn(user);
 
-        User userFromTest = userService.save(user);
-        assertEquals(userFromTest.getId(), ID_1);
-        assertEquals(userFromTest.getLogin(), LOGIN);
-        assertEquals(userFromTest.getPass(), PASS);
-        assertEquals(userFromTest.getRole(), ROLE);
-        assertEquals(userFromTest.getFirstName(), FIRST_NAME);
-        assertEquals(userFromTest.getLastName(), LAST_NAME);
+        User actualUser = userService.save(user);
+
+        assertEquals(user, actualUser);
 
         verify(userDao).save(user);
     }
@@ -77,13 +68,9 @@ class UserServiceImplTest {
     void shouldFindById() {
         when(userDao.findById(ID_1)).thenReturn(Optional.of(user));
 
-        User userFromTest = userService.findById(ID_1);
-        assertEquals(userFromTest.getId(), ID_1);
-        assertEquals(userFromTest.getLogin(), LOGIN);
-        assertEquals(userFromTest.getPass(), PASS);
-        assertEquals(userFromTest.getRole(), ROLE);
-        assertEquals(userFromTest.getFirstName(), FIRST_NAME);
-        assertEquals(userFromTest.getLastName(), LAST_NAME);
+        User actualUser = userService.findById(ID_1);
+
+        assertEquals(user, actualUser);
 
         verify(userDao).findById(ID_1);
     }
@@ -98,13 +85,9 @@ class UserServiceImplTest {
     void shouldFindByLogin() {
         when(userDao.findByLogin(LOGIN)).thenReturn(Optional.of(user));
 
-        User userFromTest = userService.findByLogin(LOGIN);
-        assertEquals(userFromTest.getId(), ID_1);
-        assertEquals(userFromTest.getLogin(), LOGIN);
-        assertEquals(userFromTest.getPass(), PASS);
-        assertEquals(userFromTest.getRole(), ROLE);
-        assertEquals(userFromTest.getFirstName(), FIRST_NAME);
-        assertEquals(userFromTest.getLastName(), LAST_NAME);
+        User actualUser = userService.findByLogin(LOGIN);
+
+        assertEquals(user, actualUser);
 
         verify(userDao).findByLogin(LOGIN);
     }
@@ -120,14 +103,9 @@ class UserServiceImplTest {
     void shouldFindAll() {
         when(userDao.findAll()).thenReturn(users);
 
-        List<User> usersFromTest = userService.findAll();
-        User userFromTest = usersFromTest.get(0);
-        assertEquals(userFromTest.getId(), ID_1);
-        assertEquals(userFromTest.getLogin(), LOGIN);
-        assertEquals(userFromTest.getPass(), PASS);
-        assertEquals(userFromTest.getRole(), ROLE);
-        assertEquals(userFromTest.getFirstName(), FIRST_NAME);
-        assertEquals(userFromTest.getLastName(), LAST_NAME);
+        List<User> actualUsers = userService.findAll();
+
+        assertEquals(users, actualUsers);
 
         verify(userDao).findAll();
     }
@@ -137,16 +115,15 @@ class UserServiceImplTest {
         when(userDao.findById(ID_1)).thenReturn(Optional.of(user));
         when(userDao.update(user)).thenReturn(user);
 
-        User userFromTest = userService.changeActiveStatusById(ID_1, false);
+        User actualUser = userService.changeActiveStatusById(ID_1, false);
 
-
-        assertEquals(userFromTest.getId(), ID_1);
-        assertEquals(userFromTest.getLogin(), LOGIN);
-        assertEquals(userFromTest.getPass(), PASS);
-        assertEquals(userFromTest.getRole(), ROLE);
-        assertEquals(userFromTest.getFirstName(), FIRST_NAME);
-        assertEquals(userFromTest.getLastName(), LAST_NAME);
-        assertFalse(userFromTest.isActive());
+        assertEquals(actualUser.getId(), ID_1);
+        assertEquals(actualUser.getLogin(), LOGIN);
+        assertEquals(actualUser.getPass(), PASS);
+        assertEquals(actualUser.getRole(), ROLE);
+        assertEquals(actualUser.getFirstName(), FIRST_NAME);
+        assertEquals(actualUser.getLastName(), LAST_NAME);
+        assertFalse(actualUser.isActive());
 
         verify(userDao).findById(ID_1);
         verify(userDao).update(user);
@@ -157,15 +134,9 @@ class UserServiceImplTest {
     void shouldUpdate() {
         when(userDao.update(user)).thenReturn(user);
 
-        User userFromTest = userService.update(user);
+        User actualUser = userService.update(user);
 
-        assertEquals(userFromTest.getId(), ID_1);
-        assertEquals(userFromTest.getLogin(), LOGIN);
-        assertEquals(userFromTest.getPass(), PASS);
-        assertEquals(userFromTest.getRole(), ROLE);
-        assertEquals(userFromTest.getFirstName(), FIRST_NAME);
-        assertEquals(userFromTest.getLastName(), LAST_NAME);
-        assertTrue(userFromTest.isActive());
+       assertEquals(user,actualUser);
 
         verify(userDao).update(user);
     }

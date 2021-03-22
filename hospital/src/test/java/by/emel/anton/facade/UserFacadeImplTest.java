@@ -10,7 +10,6 @@ import by.emel.anton.service.exception.EntityNotFoundHospitalServiceException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-//import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -77,11 +76,13 @@ class UserFacadeImplTest {
 
     @Test
     void shouldThrowEntityNotFoundHospitalServiceExceptionWhenUserNotFoundByLogin() {
-        final EntityNotFoundHospitalServiceException  ExpectedException = new EntityNotFoundHospitalServiceException("some");
-        when(userService.findByLogin(LOGIN)).thenThrow(ExpectedException);
-        EntityNotFoundHospitalServiceException actualException
-                = assertThrows(EntityNotFoundHospitalServiceException.class, () -> userFacade.findByLogin(LOGIN));
-        //verify
+        final EntityNotFoundHospitalServiceException expectedExp = new EntityNotFoundHospitalServiceException("expected message");
+
+        when(userService.findByLogin(LOGIN)).thenThrow(expectedExp);
+
+        EntityNotFoundHospitalServiceException actualExp = assertThrows(EntityNotFoundHospitalServiceException.class, () -> userFacade.findByLogin(LOGIN));
+
+        assertEquals(expectedExp, actualExp);
     }
 
 
@@ -90,14 +91,10 @@ class UserFacadeImplTest {
 
         when(userService.findById(ID)).thenReturn(user);
         when(userConverter.convert(user)).thenReturn(responseUserDTO);
-        ResponseUserDTO responseUserFromFacade = userFacade.findById(ID);
 
-        assertEquals(responseUserFromFacade.getId(), ID);
-        assertEquals(responseUserFromFacade.getLogin(), LOGIN);
-        assertEquals(responseUserFromFacade.getBirthday(), BIRTHDAY);
-        assertEquals(responseUserFromFacade.getFirstName(), FIRST_NAME);
-        assertEquals(responseUserFromFacade.getLastName(), LAST_NAME);
-        assertEquals(responseUserFromFacade.getRoleString(), ROLE.toString());
+        ResponseUserDTO actualUserDTO = userFacade.findById(ID);
+
+        assertEquals(responseUserDTO, actualUserDTO);
 
         verify(userService).findById(ID);
         verify(userConverter).convert(user);
@@ -106,26 +103,25 @@ class UserFacadeImplTest {
 
     @Test
     void shouldThrowEntityNotFoundHospitalServiceExceptionWhenUserNotFoundById() {
-        when(userService.findById(ID)).thenThrow(EntityNotFoundHospitalServiceException.class);
-        assertThrows(EntityNotFoundHospitalServiceException.class, () -> userFacade.findById(ID));
+        final EntityNotFoundHospitalServiceException expectedExp = new EntityNotFoundHospitalServiceException("expected message");
+
+        when(userService.findById(ID)).thenThrow(expectedExp);
+
+        EntityNotFoundHospitalServiceException actualExp = assertThrows(EntityNotFoundHospitalServiceException.class, () -> userFacade.findById(ID));
+
+        assertEquals(expectedExp, actualExp);
     }
 
     @Test
-    void shouldCallMethodsInFindAll() {
+    void shouldFindAllWhenUsersExist() {
 
         when(userService.findAll()).thenReturn(users);
         when(userConverter.convertAll(users)).thenReturn(usersDTO);
-        List<ResponseUserDTO> usersDtoFromFacade = userFacade.findAll();
 
-        assertNotNull(usersDtoFromFacade);
-        ResponseUserDTO responseUserFromFacade = usersDtoFromFacade.get(0);
+        List<ResponseUserDTO> actualUsersDTO = userFacade.findAll();
 
-        assertEquals(responseUserFromFacade.getId(), ID);
-        assertEquals(responseUserFromFacade.getLogin(), LOGIN);
-        assertEquals(responseUserFromFacade.getBirthday(), BIRTHDAY);
-        assertEquals(responseUserFromFacade.getFirstName(), FIRST_NAME);
-        assertEquals(responseUserFromFacade.getLastName(), LAST_NAME);
-        assertEquals(responseUserFromFacade.getRoleString(), ROLE.toString());
+        assertNotNull(actualUsersDTO);
+        assertEquals(usersDTO, actualUsersDTO);
 
         verify(userService).findAll();
         verify(userConverter).convertAll(users);
@@ -133,20 +129,15 @@ class UserFacadeImplTest {
     }
 
     @Test
-    void shouldCallMethodsInSave() {
+    void shouldSaveUser() {
 
         when(createUserRequestDTOUserConverter.convert(createUserRequestDTO)).thenReturn(user);
         when(userService.save(user)).thenReturn(user);
         when(userConverter.convert(user)).thenReturn(responseUserDTO);
 
-        ResponseUserDTO responseUserFromFacade = userFacade.save(createUserRequestDTO);
+        ResponseUserDTO actualUserDTO = userFacade.save(createUserRequestDTO);
 
-        assertEquals(responseUserFromFacade.getId(), ID);
-        assertEquals(responseUserFromFacade.getLogin(), LOGIN);
-        assertEquals(responseUserFromFacade.getBirthday(), BIRTHDAY);
-        assertEquals(responseUserFromFacade.getFirstName(), FIRST_NAME);
-        assertEquals(responseUserFromFacade.getLastName(), LAST_NAME);
-        assertEquals(responseUserFromFacade.getRoleString(), ROLE.toString());
+        assertEquals(responseUserDTO, actualUserDTO);
 
         verify(createUserRequestDTOUserConverter).convert(createUserRequestDTO);
         verify(userService).save(user);
@@ -155,23 +146,20 @@ class UserFacadeImplTest {
     }
 
     @Test
-    void shouldCallMethodsInDelete() {
+    void shouldDeleteUser() {
         userFacade.delete(ID);
+
         verify(userService).deleteById(ID);
     }
 
     @Test
-    void changeActiveStatus() {
+    void changeUserActiveStatus() {
         when(userService.changeActiveStatusById(ID, true)).thenReturn(user);
         when(userConverter.convert(user)).thenReturn(responseUserDTO);
-        ResponseUserDTO responseUserFromFacade = userFacade.changeActiveStatus(ID, true);
 
-        assertEquals(responseUserFromFacade.getId(), ID);
-        assertEquals(responseUserFromFacade.getLogin(), LOGIN);
-        assertEquals(responseUserFromFacade.getBirthday(), BIRTHDAY);
-        assertEquals(responseUserFromFacade.getFirstName(), FIRST_NAME);
-        assertEquals(responseUserFromFacade.getLastName(), LAST_NAME);
-        assertEquals(responseUserFromFacade.getRoleString(), ROLE.toString());
+        ResponseUserDTO actualUserDTO = userFacade.changeActiveStatus(ID, true);
+
+        assertEquals(responseUserDTO, actualUserDTO);
 
         verify(userService).changeActiveStatusById(ID, true);
         verify(userConverter).convert(user);

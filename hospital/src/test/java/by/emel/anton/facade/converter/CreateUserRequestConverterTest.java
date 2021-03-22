@@ -49,13 +49,14 @@ class CreateUserRequestConverterTest {
     void shouldConvert() {
         when(passwordEncoder.encode(PASS)).thenReturn(PASS);
 
-        User user = createUserRequestConverter.convert(createUserRequestDTO);
-        assertEquals(user.getLogin(), LOGIN);
-        assertEquals(user.getPassword(), PASS);
-        assertEquals(user.getBirthday(), BIRTHDAY);
-        assertEquals(user.getFirstName(), FIRST_NAME);
-        assertEquals(user.getLastName(), LAST_NAME);
-        assertEquals(user.getRole(), Role.ADMIN);
+        User actualUser = createUserRequestConverter.convert(createUserRequestDTO);
+
+        assertEquals(LOGIN, actualUser.getLogin());
+        assertEquals(PASS, actualUser.getPass());
+        assertEquals(BIRTHDAY, actualUser.getBirthday());
+        assertEquals(FIRST_NAME, actualUser.getFirstName());
+        assertEquals(LAST_NAME, actualUser.getLastName());
+        assertEquals(Role.ADMIN, actualUser.getRole());
 
         verify(passwordEncoder).encode(PASS);
     }

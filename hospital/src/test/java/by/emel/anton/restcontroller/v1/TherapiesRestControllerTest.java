@@ -136,7 +136,7 @@ class TherapiesRestControllerTest {
 
     @Test
     @WithUserDetails("doctor")
-    void saveTherapy() throws Exception {
+    void ShouldSaveTherapy() throws Exception {
 
         String therapyString = getJsonStringFromFile(REQUEST_BODY_THERAPY_PATH);
         JSONObject therapyJson = new JSONObject(therapyString);

@@ -46,17 +46,15 @@ class UserConverterTest {
 
     @Test
     void shouldConvert() {
-        ResponseUserDTO expectedUser = ResponseUserDTO.builder().build();
 
-        ResponseUserDTO responseUserDTO = userConverter.convert(user);
+        ResponseUserDTO actualUserDTO = userConverter.convert(user);
 
-        assertEquals(responseUserDTO.getId(), ID);
-        assertEquals(responseUserDTO.getBirthday(), BIRTHDAY);
-        assertEquals(responseUserDTO.getFirstName(), FIRST_NAME);
-        assertEquals(responseUserDTO.getLastName(), LAST_NAME);
-        assertEquals(responseUserDTO.getLogin(), LOGIN);
-        assertEquals(responseUserDTO.getRoleString(), ROLE.toString());
-        //
+        assertEquals(ID, actualUserDTO.getId());
+        assertEquals(BIRTHDAY, actualUserDTO.getBirthday());
+        assertEquals(FIRST_NAME, actualUserDTO.getFirstName());
+        assertEquals(LAST_NAME, actualUserDTO.getLastName());
+        assertEquals(LOGIN, actualUserDTO.getLogin());
+        assertEquals(ROLE.toString(), actualUserDTO.getRoleString());
 
     }
 }

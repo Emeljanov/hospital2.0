@@ -54,24 +54,16 @@ class TherapyServiceImplTest {
         therapies = new ArrayList<>();
 
         doctor = User.builder()
-                .id(ID_1)
-                .login(LOGIN)
-                .pass(PASS)
-                .firstName(FIRST_NAME)
-                .lastName(LAST_NAME)
-                .birthday(BIRTHDAY)
-                .isActive(true)
+                .id(ID_1).login(LOGIN).pass(PASS)
+                .firstName(FIRST_NAME).lastName(LAST_NAME)
+                .birthday(BIRTHDAY).isActive(true)
                 .role(Role.DOCTOR)
                 .build();
 
         patient = User.builder()
-                .id(ID_2)
-                .login(LOGIN)
-                .pass(PASS)
-                .firstName(FIRST_NAME)
-                .lastName(LAST_NAME)
-                .birthday(BIRTHDAY)
-                .isActive(true)
+                .id(ID_2).login(LOGIN).pass(PASS)
+                .firstName(FIRST_NAME).lastName(LAST_NAME)
+                .birthday(BIRTHDAY).isActive(true)
                 .role(Role.PATIENT)
                 .build();
 
@@ -82,13 +74,9 @@ class TherapyServiceImplTest {
                 .build();
 
         therapy = Therapy.builder()
-                .id(ID_1)
-                .description(DESCRIPTION)
-                .card(patientCard)
-                .doctor(doctor)
-//                .patient(patient)
-                .startDate(START_DATE)
-                .endDate(END_DATE)
+                .id(ID_1).description(DESCRIPTION)
+                .card(patientCard).doctor(doctor)
+                .startDate(START_DATE).endDate(END_DATE)
                 .build();
 
         therapies.add(therapy);
@@ -99,30 +87,9 @@ class TherapyServiceImplTest {
     void shouldSave() {
         when(therapyDao.save(therapy)).thenReturn(therapy);
 
-        Therapy therapyFromTest = therapyService.save(therapy);
+        Therapy actualTherapy = therapyService.save(therapy);
 
-        assertEquals(therapyFromTest.getId(), ID_1);
-        assertEquals(therapyFromTest.getDescription(), DESCRIPTION);
-        assertEquals(therapyFromTest.getEndDate(), END_DATE);
-        assertEquals(therapyFromTest.getStartDate(), START_DATE);
-        assertEquals(therapyFromTest.getCard(), patientCard);
-
-        assertEquals(therapyFromTest.getDoctor().getId(), ID_1);
-        assertEquals(therapyFromTest.getDoctor().getLastName(), LAST_NAME);
-        assertEquals(therapyFromTest.getDoctor().getFirstName(), FIRST_NAME);
-        assertEquals(therapyFromTest.getDoctor().getBirthday(), BIRTHDAY);
-        assertEquals(therapyFromTest.getDoctor().getRole(), Role.DOCTOR);
-        assertEquals(therapyFromTest.getDoctor().getLogin(), LOGIN);
-        assertEquals(therapyFromTest.getDoctor().getPass(), PASS);
-
-        /*assertEquals(therapyFromTest.getPatient().getId(), ID_2);
-        assertEquals(therapyFromTest.getPatient().getLogin(), LOGIN);
-        assertEquals(therapyFromTest.getPatient().getPass(), PASS);
-        assertEquals(therapyFromTest.getPatient().getFirstName(), FIRST_NAME);
-        assertEquals(therapyFromTest.getPatient().getLastName(), LAST_NAME);
-        assertEquals(therapyFromTest.getPatient().getRole(), Role.PATIENT);
-        assertEquals(therapyFromTest.getPatient().getBirthday(), BIRTHDAY);*/
-
+        assertEquals(therapy, actualTherapy);
 
         verify(therapyDao).save(therapy);
     }
@@ -131,14 +98,9 @@ class TherapyServiceImplTest {
     void shouldFindById() {
         when(therapyDao.findById(ID_1)).thenReturn(Optional.of(therapy));
 
-        Therapy therapyFromTest = therapyService.findById(ID_1);
-        assertEquals(therapyFromTest.getId(), ID_1);
-        assertEquals(therapyFromTest.getCard(), patientCard);
-        assertEquals(therapyFromTest.getDoctor(), doctor);
-//        assertEquals(therapyFromTest.getPatient(), patient);
-        assertEquals(therapyFromTest.getDescription(), DESCRIPTION);
-        assertEquals(therapyFromTest.getEndDate(), END_DATE);
-        assertEquals(therapyFromTest.getStartDate(), START_DATE);
+        Therapy actualTherapy = therapyService.findById(ID_1);
+
+        assertEquals(therapy, actualTherapy);
 
         verify(therapyDao).findById(ID_1);
     }
@@ -151,60 +113,42 @@ class TherapyServiceImplTest {
 
 
     @Test
-    void findAll() {
+    void shouldFindAll() {
         when(therapyDao.findAll()).thenReturn(therapies);
 
-        List<Therapy> therapiesFromTest = therapyService.findAll();
-        Therapy therapyFromTest = therapiesFromTest.get(0);
+        List<Therapy> actualTherapies = therapyService.findAll();
+        Therapy actualTherapy = actualTherapies.get(0);
 
-        assertEquals(therapyFromTest.getId(), ID_1);
-        assertEquals(therapyFromTest.getCard(), patientCard);
-        assertEquals(therapyFromTest.getDoctor(), doctor);
-//        assertEquals(therapyFromTest.getPatient(), patient);
-        assertEquals(therapyFromTest.getDescription(), DESCRIPTION);
-        assertEquals(therapyFromTest.getEndDate(), END_DATE);
-        assertEquals(therapyFromTest.getStartDate(), START_DATE);
+        assertEquals(therapy, actualTherapy);
 
         verify(therapyDao).findAll();
     }
 
     @Test
-    void shouldFindByIdForPatientId() {
+    void shouldFindByIdForCardId() {
         when(therapyDao.findByIdForCardId(ID_1, ID_2)).thenReturn(Optional.of(therapy));
 
-        Therapy therapyFromTest = therapyService.findByIdForCardId(ID_1, ID_2);
+        Therapy actualTherapy = therapyService.findByIdForCardId(ID_1, ID_2);
 
-        assertEquals(therapyFromTest.getId(), ID_1);
-        assertEquals(therapyFromTest.getCard(), patientCard);
-        assertEquals(therapyFromTest.getDoctor(), doctor);
-//        assertEquals(therapyFromTest.getPatient(), patient);
-        assertEquals(therapyFromTest.getDescription(), DESCRIPTION);
-        assertEquals(therapyFromTest.getEndDate(), END_DATE);
-        assertEquals(therapyFromTest.getStartDate(), START_DATE);
+        assertEquals(therapy, actualTherapy);
 
         verify(therapyDao).findByIdForCardId(ID_1, ID_2);
     }
 
     @Test
-    void shouldThrowEntityNotFoundHospitalServiceExceptionWhenTherapyNotFoundByIdAndPatientId() {
+    void shouldThrowEntityNotFoundHospitalServiceExceptionWhenTherapyNotFoundByIdAndCardId() {
         when(therapyDao.findById(ID_1)).thenReturn(Optional.empty());
         assertThrows(EntityNotFoundHospitalServiceException.class, () -> therapyService.findById(ID_1));
     }
 
     @Test
-    void shouldFindAllForPatientId() {
+    void shouldFindAllTherapiesForCardId() {
         when(therapyDao.findAllByCardId(ID_2)).thenReturn(therapies);
 
-        List<Therapy> therapiesFromTest = therapyService.findAllForCardId(ID_2);
-        Therapy therapyFromTest = therapiesFromTest.get(0);
+        List<Therapy> actualTherapies = therapyService.findAllForCardId(ID_2);
+        Therapy actualTherapy = actualTherapies.get(0);
 
-        assertEquals(therapyFromTest.getId(), ID_1);
-        assertEquals(therapyFromTest.getCard(), patientCard);
-        assertEquals(therapyFromTest.getDoctor(), doctor);
-//        assertEquals(therapyFromTest.getPatient(), patient);
-        assertEquals(therapyFromTest.getDescription(), DESCRIPTION);
-        assertEquals(therapyFromTest.getEndDate(), END_DATE);
-        assertEquals(therapyFromTest.getStartDate(), START_DATE);
+        assertEquals(therapy, actualTherapy);
 
         verify(therapyDao).findAllByCardId(ID_2);
     }

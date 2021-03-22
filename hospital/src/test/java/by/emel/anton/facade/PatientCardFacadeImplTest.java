@@ -71,43 +71,29 @@ class PatientCardFacadeImplTest {
         patientCardsDTO = new ArrayList<>();
 
         patient = User.builder()
-                .id(ID_2)
-                .login(LOGIN)
-                .pass(PASS)
-                .firstName(FIRST_NAME)
-                .lastName(LAST_NAME)
-                .birthday(BIRTHDAY)
-                .isActive(true)
+                .id(ID_2).login(LOGIN).pass(PASS)
+                .firstName(FIRST_NAME).lastName(LAST_NAME)
+                .birthday(BIRTHDAY).isActive(true)
                 .role(Role.PATIENT)
                 .build();
 
         doctor = User.builder()
-                .id(ID_1)
-                .login(LOGIN)
-                .pass(PASS)
-                .firstName(FIRST_NAME)
-                .lastName(LAST_NAME)
-                .birthday(BIRTHDAY)
-                .isActive(true)
+                .id(ID_1).login(LOGIN).pass(PASS)
+                .firstName(FIRST_NAME).lastName(LAST_NAME)
+                .birthday(BIRTHDAY).isActive(true)
                 .role(Role.DOCTOR)
                 .build();
 
         therapy = Therapy.builder()
-                .id(0)
-                .description(DESCRIPTION)
-                .startDate(START_DATE)
-                .endDate(END_DATE)
-                .doctor(doctor)
-                .card(patientCard)
+                .id(0).description(DESCRIPTION)
+                .startDate(START_DATE).endDate(END_DATE)
+                .doctor(doctor).card(patientCard)
                 .build();
 
         responseTherapyDTO = ResponseTherapyDTO.builder()
-                .id(ID_1)
-                .description(DESCRIPTION)
-                .startDate(START_DATE)
-                .endDate(END_DATE)
-                .doctorId(ID_1)
-                .cardId(ID_1)
+                .id(ID_1).description(DESCRIPTION)
+                .startDate(START_DATE).endDate(END_DATE)
+                .doctorId(ID_1).cardId(ID_1)
                 .build();
 
         responsePatientCardDTO = ResponsePatientCardDTO.builder()
@@ -118,7 +104,6 @@ class PatientCardFacadeImplTest {
 
         therapies.add(therapy);
         therapiesDTO.add(responseTherapyDTO);
-
 
         patientCard = PatientCard.builder()
                 .id(0) //0 or not
@@ -143,11 +128,9 @@ class PatientCardFacadeImplTest {
         when(userService.findById(ID_2)).thenReturn(patient);
         when(cardConverter.convert(patientCard)).thenReturn(responsePatientCardDTO);
 
-        ResponsePatientCardDTO responsePatientCardFromFacade = patientCardFacade.createForPatientId(ID_2);
+        ResponsePatientCardDTO actualCard = patientCardFacade.createForPatientId(ID_2);
 
-        assertEquals(responsePatientCardFromFacade.getId(), ID_1);
-        assertEquals(responsePatientCardFromFacade.getPatientId(), ID_2);
-        assertEquals(responsePatientCardFromFacade.getTherapyDTOList(), therapiesDTO);
+        assertEquals(responsePatientCardDTO, actualCard);
 
         verify(patientCardService).save(patientCard);
         verify(userService).findById(ID_2);
@@ -161,11 +144,9 @@ class PatientCardFacadeImplTest {
         when(patientCardService.findById(ID_1)).thenReturn(patientCard);
         when(cardConverter.convert(patientCard)).thenReturn(responsePatientCardDTO);
 
-        ResponsePatientCardDTO responsePatientCardFromFacade = patientCardFacade.findById(ID_1);
+        ResponsePatientCardDTO actualCard = patientCardFacade.findById(ID_1);
 
-        assertEquals(responsePatientCardFromFacade.getId(), ID_1);
-        assertEquals(responsePatientCardFromFacade.getTherapyDTOList(), therapiesDTO);
-        assertEquals(responsePatientCardFromFacade.getPatientId(), ID_2);
+        assertEquals(responsePatientCardDTO,actualCard);
 
         verify(patientCardService).findById(ID_1);
         verify(cardConverter).convert(patientCard);
@@ -174,8 +155,13 @@ class PatientCardFacadeImplTest {
 
     @Test
     void shouldThrowEntityNotFoundHospitalServiceExceptionWhenCardByIdNotFound() {
-        when(patientCardService.findById(ID_1)).thenThrow(EntityNotFoundHospitalServiceException.class);
-        assertThrows(EntityNotFoundHospitalServiceException.class, () -> patientCardFacade.findById(ID_1));
+        EntityNotFoundHospitalServiceException expectedExp = new EntityNotFoundHospitalServiceException("expected message");
+
+        when(patientCardService.findById(ID_1)).thenThrow(expectedExp);
+
+        EntityNotFoundHospitalServiceException actualExp =  assertThrows(EntityNotFoundHospitalServiceException.class, () -> patientCardFacade.findById(ID_1));
+
+        assertEquals(expectedExp,actualExp);
     }
 
     @Test
@@ -183,13 +169,11 @@ class PatientCardFacadeImplTest {
         when(patientCardService.findAll()).thenReturn(patientCards);
         when(cardConverter.convertAll(patientCards)).thenReturn(patientCardsDTO);
 
-        List<ResponsePatientCardDTO> responsePatientCardsFromFacade = patientCardFacade.findAll();
-        ResponsePatientCardDTO responsePCardFromFacade = responsePatientCardsFromFacade.get(0);
+        List<ResponsePatientCardDTO> actualCardsDTO = patientCardFacade.findAll();
+        ResponsePatientCardDTO actualCard = actualCardsDTO.get(0);
 
-        assertNotNull(responsePatientCardsFromFacade);
-        assertEquals(responsePCardFromFacade.getId(), ID_1);
-        assertEquals(responsePCardFromFacade.getPatientId(), ID_2);
-        assertEquals(responsePCardFromFacade.getTherapyDTOList(), therapiesDTO);
+        assertNotNull(actualCardsDTO);
+        assertEquals(responsePatientCardDTO,actualCard);
 
         verify(patientCardService).findAll();
         verify(cardConverter).convertAll(patientCards);
@@ -201,11 +185,9 @@ class PatientCardFacadeImplTest {
         when(patientCardService.findByPatientId(ID_2)).thenReturn(patientCard);
         when(cardConverter.convert(patientCard)).thenReturn(responsePatientCardDTO);
 
-        ResponsePatientCardDTO responsePCardFromFacade = patientCardFacade.findByPatientId(ID_2);
+        ResponsePatientCardDTO actualCardDTO = patientCardFacade.findByPatientId(ID_2);
 
-        assertEquals(responsePCardFromFacade.getId(), ID_1);
-        assertEquals(responsePCardFromFacade.getPatientId(), ID_2);
-        assertEquals(responsePCardFromFacade.getTherapyDTOList(), therapiesDTO);
+        assertEquals(responsePatientCardDTO,actualCardDTO);
 
         verify(patientCardService).findByPatientId(ID_2);
         verify(cardConverter).convert(patientCard);
@@ -214,7 +196,12 @@ class PatientCardFacadeImplTest {
 
     @Test
     void shouldThrowEntityNotFoundHospitalServiceExceptionWhenCardByPatientIdNotFound() {
-        when(patientCardService.findByPatientId(ID_1)).thenThrow(EntityNotFoundHospitalServiceException.class);
-        assertThrows(EntityNotFoundHospitalServiceException.class, () -> patientCardFacade.findByPatientId(ID_1));
+        EntityNotFoundHospitalServiceException expectedExp = new EntityNotFoundHospitalServiceException("expected message");
+
+        when(patientCardService.findByPatientId(ID_1)).thenThrow(expectedExp);
+
+        EntityNotFoundHospitalServiceException actualExp = assertThrows(EntityNotFoundHospitalServiceException.class, () -> patientCardFacade.findByPatientId(ID_1));
+
+        assertEquals(expectedExp,actualExp);
     }
 }
