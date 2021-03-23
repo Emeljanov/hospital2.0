@@ -126,5 +126,10 @@
             <version>2.27.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>uk.co.datumedge</groupId>
+            <artifactId>hamcrest-json</artifactId>
+            <version>0.1</version>
+        </dependency>
     </dependencies>
 </project>

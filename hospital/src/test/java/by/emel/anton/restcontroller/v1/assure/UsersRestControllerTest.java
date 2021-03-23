@@ -10,6 +10,7 @@ import io.restassured.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.jdbc.Sql;
+import uk.co.datumedge.hamcrest.json.JSONObjectAssertComparator;
+import uk.co.datumedge.hamcrest.json.SameJSONAs;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -135,6 +138,9 @@ class UsersRestControllerTest {
     }
 
     private void AssertJsonEquals(String expected, String actual) throws IOException {
+
+
+
         ObjectMapper objectMapper = new ObjectMapper();
         assertEquals(objectMapper.readTree(expected), objectMapper.readTree(actual));
     }
