@@ -7,6 +7,7 @@ import by.emel.anton.facade.UserFacade;
 import by.emel.anton.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,6 +31,7 @@ import static by.emel.anton.restcontroller.v1.Permissions.AUTHORITY_PATIENT;
 @RestController
 @RequestMapping("/api/v1/auth")
 @Slf4j
+@ConditionalOnProperty(name = "security.enable")
 public class AuthenticationRestController {
 
     private final static String TOKEN = "token";
