@@ -3,7 +3,6 @@ package by.emel.anton.restcontroller.v1.assure;
 import by.emel.anton.entity.Role;
 import by.emel.anton.entity.User;
 import by.emel.anton.repository.jpa.UserJpaRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -11,7 +10,6 @@ import io.restassured.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,16 +127,16 @@ class UsersRestControllerTest {
                 .statusCode(HttpStatus.OK.value())
                 .extract().asString();
 
-        String epected = getJsonStringFromFile(RESPONSE_USER_PETROV);
+        String expected = getJsonStringFromFile(RESPONSE_USER_PETROV);
 
-        AssertJsonEquals(epected,bodyString);
+        AssertJsonEquals(expected, bodyString);
 
 
     }
 
     private void AssertJsonEquals(String expected, String actual) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        assertEquals(objectMapper.readTree(expected),objectMapper.readTree(actual));
+        assertEquals(objectMapper.readTree(expected), objectMapper.readTree(actual));
     }
 
     @Test
