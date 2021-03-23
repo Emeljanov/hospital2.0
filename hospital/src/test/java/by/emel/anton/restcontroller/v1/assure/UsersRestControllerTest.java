@@ -3,19 +3,21 @@ package by.emel.anton.restcontroller.v1.assure;
 import by.emel.anton.entity.Role;
 import by.emel.anton.entity.User;
 import by.emel.anton.repository.jpa.UserJpaRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -51,6 +53,7 @@ class UsersRestControllerTest {
     private final LocalDate doctorBirthday = LocalDate.of(1900, 1, 1);
     private final LocalDate patientBirthday = LocalDate.of(1998, 2, 3);
     private final LocalDate adminBirthday = LocalDate.of(1800, 1, 1);
+    private final String RESPONSE_USER_PETROV = "src/test/resources/response-body-user-petrov.json";
     private final int NOT_EXIST_ID = 100;
 
     @Autowired
@@ -107,13 +110,10 @@ class UsersRestControllerTest {
     }
 
     @Test
-    void shouldFindUserById() throws IOException {
-
-        given().when().get("/api/v1/users/{id}", 2) .then().assertThat()
-                .statusCode(HttpStatus.OK.value());
+    void shouldFindUserById() throws IOException, JSONException {
 
 
-     /*   given().header(getAdminHeader()).when().get("/api/v1/users/{id}", 2)
+        given().header(getAdminHeader()).when().get("/api/v1/users/{id}", 2)
                 .then().assertThat()
                 .statusCode(HttpStatus.OK.value())
                 .body(KEY_ID, equalTo(2))
@@ -122,7 +122,23 @@ class UsersRestControllerTest {
                 .body(KEY_LAST_NAME, equalTo("Petrov"))
                 .body(KEY_BIRTHDAY, equalTo(LocalDate.of(1998, 2, 3).toString()))
                 .body(KEY_ACTIVE, equalTo(true))
-                .body(KEY_ROLE_STRING, equalTo(Role.PATIENT.toString()));*/
+                .body(KEY_ROLE_STRING, equalTo(Role.PATIENT.toString()));
+
+        String bodyString = given().header(getAdminHeader()).when().get("/api/v1/users/{id}", 2)
+                .then().assertThat()
+                .statusCode(HttpStatus.OK.value())
+                .extract().asString();
+
+        String epected = getJsonStringFromFile(RESPONSE_USER_PETROV);
+
+        AssertJsonEquals(epected,bodyString);
+
+
+    }
+
+    private void AssertJsonEquals(String expected, String actual) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        assertEquals(objectMapper.readTree(expected),objectMapper.readTree(actual));
     }
 
     @Test

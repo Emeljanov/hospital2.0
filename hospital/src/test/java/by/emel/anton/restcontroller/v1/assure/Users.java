@@ -29,13 +29,12 @@ public class Users {
 
     @LocalServerPort
     private int port;
-
     @BeforeEach
     void beforeAll() {
         RestAssured.port = port;
     }
 
-
+/*
     @Test
     void shouldFindUserById() throws IOException {
 
@@ -56,5 +55,5 @@ public class Users {
 
     private Header getAdminHeader() throws IOException {
         return getHeader(REQUEST_BODY_USER_PATH);
-    }
+    }*/
 }
