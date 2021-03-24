@@ -15,6 +15,8 @@ public enum Role {
     DOCTOR(Set.of(Permission.DOCTOR, Permission.PATIENT)),
     PATIENT(Set.of(Permission.PATIENT));
 
+
+
     private final Set<Permission> permissions;
 
     public Set<SimpleGrantedAuthority> getAuthorities() {

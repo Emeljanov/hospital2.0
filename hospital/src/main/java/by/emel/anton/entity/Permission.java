@@ -11,6 +11,8 @@ public enum Permission {
     DOCTOR("permission:doctor"),
     ADMIN("permission:admin");
 
+
+
     private final String permission;
 
 }
