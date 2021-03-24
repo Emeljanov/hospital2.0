@@ -1,0 +1,9 @@
+{
+  "id": 1,
+  "login": "doctor",
+  "roleString": "DOCTOR",
+  "firstName": "Ivan",
+  "lastName": "Ivanov",
+  "active": false,
+  "birthday": "1900-01-01"
+}

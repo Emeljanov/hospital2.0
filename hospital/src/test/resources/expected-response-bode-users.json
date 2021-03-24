@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "login": "doctor",
+    "roleString": "DOCTOR",
+    "firstName": "Ivan",
+    "lastName": "Ivanov",
+    "active": true,
+    "birthday": "1900-01-01"
+  },
+  {
+    "id": 2,
+    "login": "patient",
+    "roleString": "PATIENT",
+    "firstName": "Petr",
+    "lastName": "Petrov",
+    "birthday": "1998-02-03",
+    "active": true
+  },
+  {
+    "id": 3,
+    "login": "admin",
+    "roleString": "ADMIN",
+    "firstName": "Drakula",
+    "lastName": "Pensilvanskiy",
+    "birthday": "1800-01-01",
+    "active": true
+  },
+  {
+    "id": 4,
+    "login": "del",
+    "roleString": "PATIENT",
+    "firstName": "Del",
+    "lastName": "Delov",
+    "birthday": "2001-01-01",
+    "active": true
+  },
+  {
+    "id": 5,
+    "login": "another_patient",
+    "roleString": "PATIENT",
+    "firstName": "Del",
+    "lastName": "Delov",
+    "birthday": "2001-01-01",
+    "active": true
+  },
+  {
+    "id": 6,
+    "login": "patient_without_card",
+    "roleString": "PATIENT",
+    "firstName": "Del",
+    "lastName": "Delov",
+    "birthday": "2001-01-01",
+    "active": true
+  }
+]
